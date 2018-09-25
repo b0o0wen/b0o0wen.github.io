@@ -498,17 +498,41 @@
       
         
           
-            <h1 id="hexo这个神奇的东西"><a href="#hexo这个神奇的东西" class="headerlink" title="hexo这个神奇的东西"></a>hexo这个神奇的东西</h1><p><em>真的神奇</em></p>
-<ol>
-<li>la</li>
-<li>lala</li>
-<li>lalala<ul>
-<li>?</li>
-<li>??</li>
-<li>???</li>
+            <h1 id="hexo-backup"><a href="#hexo-backup" class="headerlink" title="hexo-backup"></a>hexo-backup</h1><p>记录一下搭建过程中的要注意的点，以及hexo配置，主要是./下和./themes/next/下的两个_config.yml文件</p>
+<p><strong>hexo 是基于nodejs的，我的node: v10.10.0, npm: 6.4.1</strong></p>
+<p>安装使用见hexo官网：[<a href="https://hexo.io/zh-cn/docs/setup]" target="_blank" rel="noopener">https://hexo.io/zh-cn/docs/setup]</a></p>
+<h2 id="deploy-配置"><a href="#deploy-配置" class="headerlink" title="deploy 配置"></a>deploy 配置</h2><ul>
+<li><p>deploy 注意按官网介绍，需要安装插件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>托管到 GitHub</p>
+<ul>
+<li>GitHub 可以建一个特殊的repo来托管网站：repo名字按规则来建 <strong><em>username.github.io</em></strong>。把网站文件push到这个repo下，然后访问[<a href="https://b0o0wen.github.io/]" target="_blank" rel="noopener">https://b0o0wen.github.io/]</a></li>
+<li><p>在本地<br>在 ./_config.yml最后添加：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: git@github.com:b0o0wen/b0o0wen.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+<p>注意冒号后一定要有个空格</p>
+</li>
 </ul>
 </li>
-</ol>
+</ul>
+<h2 id="appearance-配置"><a href="#appearance-配置" class="headerlink" title="appearance 配置"></a>appearance 配置</h2><ul>
+<li><p>主题配置<br>主题使用next [<a href="https://github.com/iissnan/hexo-theme-next]" target="_blank" rel="noopener">https://github.com/iissnan/hexo-theme-next]</a> 我的next版本是 v5.1.2</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone --branch v5.1.2 https://github.com/iissnan/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure>
+<p>clone next之后，在./themes/next/下有了另一个_config.yml文件<br>主要有：</p>
+<ul>
+<li><p>menu：如tags, categories等。在menu下新建一行xxxx，hexo就会在网站上生成一个名为xxxx的tab，对于常用的menu，hexo还会自带图标。需要注意的是要：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new page &apos;xxxx&apos;</span><br></pre></td></tr></table></figure>
+<p>来在./source/xxxx建立一个index.md，即点击该tab对应的页面。对于tags，在该index.md中修改这个页面的type为tags，hexo就给你生成一个tags页面，还自带词云效果</p>
+</li>
+<li>scheme：hexo共四个scheme</li>
+<li>avatar：头像的默认根目录在 ./themes/next/source/ 下，支持各种图片格式</li>
+<li>social：hexo自带图标</li>
+</ul>
+</li>
+<li><p>背景图及透明度<br>在./themes/next/source/css/ 下有个_custom文件夹，这里可以修改custom.styl来定制css</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">body &#123;</span><br><span class="line">//    background:url(https://source.unsplash.com/random/1600x900);</span><br><span class="line">  background:url(/images/background_leaf.jpg)   //背景图片，默认根目录在 ./themes/next/source/ 下</span><br><span class="line">  background-repeat: no-repeat;</span><br><span class="line">  background-attachment:fixed;</span><br><span class="line">  background-position:50% 50%;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//页面上menu那部分class是 .header-inner</span><br><span class="line">.header-inner &#123;</span><br><span class="line">  opacity: 0.88</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.main-inner &#123;</span><br><span class="line">    opacity: 0.9;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
 
           
         
