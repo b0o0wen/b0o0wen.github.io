@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[second post]]></title>
-    <url>%2F2018%2F09%2F20%2Fsecond-post%2F</url>
+    <title><![CDATA[Airflow celery executor]]></title>
+    <url>%2F2018%2F09%2F20%2Fairflow-celery-executor%2F</url>
     <content type="text"><![CDATA[airflow celery executor 搭建celeryPython celery包是一个分布式框架 brokerrabbitmq backendpostgresql 1$ rabbitmqctl xxxxxxx 123import pandas as pd import numpy as np print(1)]]></content>
       <tags>
-        <tag>test</tag>
         <tag>airflow</tag>
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[my first post]]></title>
-    <url>%2F2018%2F09%2F20%2Fmy-first-post%2F</url>
-    <content type="text"><![CDATA[hexo-backup记录一下搭建过程中的要注意的点，以及hexo配置，主要是./下和./themes/next/下的两个_config.yml文件 hexo 是基于nodejs的，我的node: v10.10.0, npm: 6.4.1 安装使用见hexo官网：[https://hexo.io/zh-cn/docs/setup] deploy 配置 deploy 注意按官网介绍，需要安装插件 1$ npm install hexo-deployer-git --save 托管到 GitHub GitHub 可以建一个特殊的repo来托管网站：repo名字按规则来建 username.github.io。把网站文件push到这个repo下，然后访问[https://b0o0wen.github.io/] 在本地在 ./_config.yml最后添加： 1234deploy: type: git repo: git@github.com:b0o0wen/b0o0wen.github.io.git branch: master 注意冒号后一定要有个空格 appearance 配置 主题配置主题使用next [https://github.com/iissnan/hexo-theme-next] 我的next版本是 v5.1.2 1$ git clone --branch v5.1.2 https://github.com/iissnan/hexo-theme-next themes/next clone next之后，在./themes/next/下有了另一个_config.yml文件主要有： menu：如tags, categories等。在menu下新建一行xxxx，hexo就会在网站上生成一个名为xxxx的tab，对于常用的menu，hexo还会自带图标。需要注意的是要： 1hexo new page &apos;xxxx&apos; 来在./source/xxxx建立一个index.md，即点击该tab对应的页面。对于tags，在该index.md中修改这个页面的type为tags，hexo就给你生成一个tags页面，还自带词云效果 scheme：hexo共四个scheme avatar：头像的默认根目录在 ./themes/next/source/ 下，支持各种图片格式 social：hexo自带图标 背景图及透明度在./themes/next/source/css/ 下有个_custom文件夹，这里可以修改custom.styl来定制css 12345678910111213141516body &#123;// background:url(https://source.unsplash.com/random/1600x900); background:url(/images/background_leaf.jpg) //背景图片，默认根目录在 ./themes/next/source/ 下 background-repeat: no-repeat; background-attachment:fixed; background-position:50% 50%;&#125;//页面上menu那部分class是 .header-inner.header-inner &#123; opacity: 0.88&#125;.main-inner &#123; opacity: 0.9;&#125;]]></content>
+    <title><![CDATA[About Hexo]]></title>
+    <url>%2F2018%2F09%2F20%2Fabout-hexo%2F</url>
+    <content type="text"><![CDATA[hexo-backup记录一下搭建过程中的要注意的点，以及hexo配置，主要是./下和./themes/next/下的两个_config.yml文件hexo 是基于nodejs的，我的node: v10.10.0, npm: 6.4.1 安装使用见hexo官网：[https://hexo.io/zh-cn/docs/setup] deploy 配置 deploy 注意按官网介绍，需要安装插件 1$ npm install hexo-deployer-git --save 托管到 GitHub GitHub 可以建一个特殊的repo来托管网站：repo名字按规则来建 username.github.io。把网站文件push到这个repo下，然后访问[https://b0o0wen.github.io/] 在本地在 ./_config.yml最后添加： 1234deploy: type: git repo: git@github.com:b0o0wen/b0o0wen.github.io.git branch: master 注意冒号后一定要有个空格 appearance 配置 主题配置主题使用next [https://github.com/iissnan/hexo-theme-next] 我的next版本是 v5.1.2 1$ git clone --branch v5.1.2 https://github.com/iissnan/hexo-theme-next themes/next clone next之后，在./themes/next/下有了另一个_config.yml文件主要有： menu：如tags, categories等。在menu下新建一行xxxx，hexo就会在网站上生成一个名为xxxx的tab，对于常用的menu，hexo还会自带图标。需要注意的是要： 1hexo new page &apos;xxxx&apos; 来在./source/xxxx建立一个index.md，即点击该tab对应的页面。对于tags，在该index.md中修改这个页面的type为tags，hexo就给你生成一个tags页面，还自带词云效果 scheme：hexo共四个scheme avatar：头像的默认根目录在 ./themes/next/source/ 下，支持各种图片格式 social：hexo自带图标 背景图及透明度在./themes/next/source/css/ 下有个_custom文件夹，这里可以修改custom.styl来定制css 12345678910111213141516body &#123;// background:url(https://source.unsplash.com/random/1600x900); background:url(/images/background_leaf.jpg) //背景图片，默认根目录在 ./themes/next/source/ 下 background-repeat: no-repeat; background-attachment:fixed; background-position:50% 50%;&#125;//页面上menu那部分class是 .header-inner.header-inner &#123; opacity: 0.88&#125;.main-inner &#123; opacity: 0.9;&#125; 使用技巧 写了一篇新post后，web上会默认显示全文，为了只显示部分 可以在文章的md中添加 1&lt;!--more--&gt; 可以修改配置 123auto_excerpt: enable: true length: 150 图片等其他功能见官网。 在添加或修改了一篇post后，hexo g -d 之前，最好1hexo clean 这会清空public文件夹。如果不clean，而你又恰好修改或删除了一个tag或者category，那么例如在tag页面可能出现：“3 tags in tatol”，但是下边具体的tag只有2个]]></content>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[Hello World]]></title>
