@@ -283,6 +283,136 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/09/test/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="b0o0wen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0o0 Diary">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/09/test/" itemprop="url">test</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-09T16:05:00+08:00">
+                2018-10-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/10/09/test/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/10/09/test/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <img class="example.jpg This is an example image">
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/20/airflow-celery-executor/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -364,7 +494,9 @@
       
         
           
-            <h1 id="airflow-celery-executor-搭建"><a href="#airflow-celery-executor-搭建" class="headerlink" title="airflow celery executor 搭建"></a>airflow celery executor 搭建</h1><h2 id="celery"><a href="#celery" class="headerlink" title="celery"></a>celery</h2><p>Python celery包是一个分布式框架</p>
+            <h1 id="airflow-celery-executor-搭建"><a href="#airflow-celery-executor-搭建" class="headerlink" title="airflow celery executor 搭建"></a>airflow celery executor 搭建</h1><p>airflow是一个任务流工具，它基本的local executor已经可以满足大部分的需求，但是不能在web端点击run。因此配置celery executor来提高可用性。</p>
+<p>celery executor其实是用了Python的celery包</p>
+<h2 id="celery"><a href="#celery" class="headerlink" title="celery"></a>celery</h2><p>celery包是一个Python写的分布式框架</p>
 <h3 id="broker"><a href="#broker" class="headerlink" title="broker"></a>broker</h3><p>rabbitmq</p>
 <h3 id="backend"><a href="#backend" class="headerlink" title="backend"></a>backend</h3><p>postgresql</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rabbitmqctl xxxxxxx</span><br></pre></td></tr></table></figure>
@@ -718,7 +850,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
