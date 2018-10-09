@@ -10,7 +10,7 @@
   </entry>
   <entry>
     <title><![CDATA[Airflow celery executor]]></title>
-    <url>%2F2018%2F09%2F22%2Fairflow-celery-executor%2F</url>
+    <url>%2F2018%2F09%2F20%2Fairflow-celery-executor%2F</url>
     <content type="text"><![CDATA[airflow celery executor 搭建airflow是一个任务流工具，它基本的local executor已经可以满足大部分的需求，但是不能在web端点击run。因此配置celery executor来提高可用性。 celery executor其实是用了Python的celery包 celerycelery包是一个Python写的分布式框架 brokerrabbitmq backendpostgresql 1$ rabbitmqctl xxxxxxx 123import pandas as pd import numpy as np print(1)]]></content>
       <tags>
         <tag>airflow</tag>
