@@ -94,18 +94,20 @@
 
 
 
-<meta name="description" content="airflow celery executor 搭建airflow是一个任务流工具，它基本的local executor已经可以满足大部分的需求，但是不能在web端点击run。因此配置celery executor来提高可用性。 celery executor其实是用了Python的celery包 celerycelery包是一个Python写的分布式框架 brokerrabbitmq backe">
+<meta name="description" content="airflow celery executor 搭建">
 <meta name="keywords" content="airflow">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Airflow celery executor">
 <meta property="og:url" content="http://yoursite.com/2018/09/20/airflow-celery-executor/index.html">
 <meta property="og:site_name" content="0o0 Diary">
-<meta property="og:description" content="airflow celery executor 搭建airflow是一个任务流工具，它基本的local executor已经可以满足大部分的需求，但是不能在web端点击run。因此配置celery executor来提高可用性。 celery executor其实是用了Python的celery包 celerycelery包是一个Python写的分布式框架 brokerrabbitmq backe">
+<meta property="og:description" content="airflow celery executor 搭建">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-09T12:05:12.092Z">
+<meta property="og:image" content="http://yoursite.com/2018/09/20/airflow-celery-executor/celery.png">
+<meta property="og:updated_time" content="2018-10-10T07:03:17.850Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Airflow celery executor">
-<meta name="twitter:description" content="airflow celery executor 搭建airflow是一个任务流工具，它基本的local executor已经可以满足大部分的需求，但是不能在web端点击run。因此配置celery executor来提高可用性。 celery executor其实是用了Python的celery包 celerycelery包是一个Python写的分布式框架 brokerrabbitmq backe">
+<meta name="twitter:description" content="airflow celery executor 搭建">
+<meta name="twitter:image" content="http://yoursite.com/2018/09/20/airflow-celery-executor/celery.png">
 
 
 
@@ -360,13 +362,38 @@
       
 
       
-        <h1 id="airflow-celery-executor-搭建"><a href="#airflow-celery-executor-搭建" class="headerlink" title="airflow celery executor 搭建"></a>airflow celery executor 搭建</h1><p>airflow是一个任务流工具，它基本的local executor已经可以满足大部分的需求，但是不能在web端点击run。因此配置celery executor来提高可用性。</p>
-<p>celery executor其实是用了Python的celery包</p>
-<h2 id="celery"><a href="#celery" class="headerlink" title="celery"></a>celery</h2><p>celery包是一个Python写的分布式框架</p>
-<h3 id="broker"><a href="#broker" class="headerlink" title="broker"></a>broker</h3><p>rabbitmq</p>
-<h3 id="backend"><a href="#backend" class="headerlink" title="backend"></a>backend</h3><p>postgresql</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rabbitmqctl xxxxxxx</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd </span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np </span><br><span class="line">print(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+        <h1 id="airflow-celery-executor-搭建"><a href="#airflow-celery-executor-搭建" class="headerlink" title="airflow celery executor 搭建"></a>airflow celery executor 搭建</h1><img src="/2018/09/20/airflow-celery-executor/celery.png" title="airflow celery executor是用了Python的celery包，简单明了、方便快捷">
+<a id="more"></a>
+<p>airflow是一个任务流工具，它基本的local executor已经可以满足大部分的需求，但是不能在web端点击run。因此配置celery executor来提高可用性。</p>
+<h2 id="celery"><a href="#celery" class="headerlink" title="celery"></a>celery</h2><p>celery是一个Python写的分布式框架</p>
+<h3 id="broker"><a href="#broker" class="headerlink" title="broker"></a>broker</h3><p>broker就是一个消息队列来分发消息，celery推荐Rabbitmq，Redis。<br>个人用rabbitmq<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl add_user root</span><br><span class="line">rabbitmqctl set_user_tags root administrator</span><br><span class="line">rabbitmqctl add_vhost airflow </span><br><span class="line">rabbitmqctl set_permissions -p airflow root “.” “.” “.*”</span><br></pre></td></tr></table></figure></p>
+<p>直接设为administrator 2333</p>
+<h3 id="worker"><a href="#worker" class="headerlink" title="worker"></a>worker</h3><p>worker就是执行者，可以是分布式的。在一台机器上的话，worker数量不是越多越好，celery建议worker数量不超过总逻辑cpu数的两倍。</p>
+<h3 id="backend"><a href="#backend" class="headerlink" title="backend"></a>backend</h3><p>backend用来存储worker执行的结果。<br>我个人用postgresql。当然也可以用Redis或mq</p>
+<ul>
+<li>在postgre中建一个专用的库，例如取名：celery_backend_for_airflow</li>
+<li>避免权限问题，这个pg库的owner直接就是一个superuser，例如bowen 2333</li>
+</ul>
+<h2 id="airflow-celery配置"><a href="#airflow-celery配置" class="headerlink" title="airflow celery配置"></a>airflow celery配置</h2><p>在airflow.cfg中的配置就很方便</p>
+<ol>
+<li><p>配broker，就改下 broker_url，例如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">broker_url = amqp://root:111111@localhost:5672/airflow</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配backend，就改下 celery_result_backend，格式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">celery_result_backend = db+postgresql://bowen:111111@localhost/celery_backend_for_airflow</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>然后启动worker<br> celery默认不能以root用户启动worker，启动airflow worker就有了问题：</p>
+<ul>
+<li>airflow的worker实际就是celery的worker，root下直接 <code># airflow worker</code> 会报错。</li>
+<li>也不能以普通用户运行worker<br>  airflow worker 要写入airflow的log，但是普通用户运行的worker没有权限写入以root生成的log文件。<br>  因为log总要生成新的，所以不能通过手动改所以log文件的权限来解决。</li>
+<li><p>所以就有两个解决方法：<br>  1) 修改airflow生成log部分的代码，使之o+w。但是说不定改了这个权限后还有别的权限问题。<br>  2) 修改airflow调用celery的部分，使之可以root运行</p>
+<p>参照其他博文，用2，在airflow包里的<code>xxxx/site-packages/airflow/executors</code>里的<code>celery_executor.py</code>加上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">from celery import platforms</span><br><span class="line">platforms.C_FORCE_ROOT = True</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+<p>之后一顿重启，基本就ok了。有问题可以直接在rabbitmq或者pg中看是哪步出了问题。启动worker可以指定pid file，并且Daemon<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">airflow worker --pid ~/airflow/airflow-worker.pid -D</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -571,7 +598,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#airflow-celery-executor-搭建"><span class="nav-number">1.</span> <span class="nav-text">airflow celery executor 搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#celery"><span class="nav-number">1.1.</span> <span class="nav-text">celery</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#broker"><span class="nav-number">1.1.1.</span> <span class="nav-text">broker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#backend"><span class="nav-number">1.1.2.</span> <span class="nav-text">backend</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#airflow-celery-executor-搭建"><span class="nav-number">1.</span> <span class="nav-text">airflow celery executor 搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#celery"><span class="nav-number">1.1.</span> <span class="nav-text">celery</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#broker"><span class="nav-number">1.1.1.</span> <span class="nav-text">broker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#worker"><span class="nav-number">1.1.2.</span> <span class="nav-text">worker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#backend"><span class="nav-number">1.1.3.</span> <span class="nav-text">backend</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#airflow-celery配置"><span class="nav-number">1.2.</span> <span class="nav-text">airflow celery配置</span></a></li></ol></li></ol></div>
             
 
           </div>
