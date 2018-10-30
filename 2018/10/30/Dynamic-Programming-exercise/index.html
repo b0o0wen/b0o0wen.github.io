@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="algorithm,dynamic programming," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="Those who cannt remember the past are condemned to repeat it把问题划分为重复性的子问题，并记住计算过的部分来避免重复计算  STEPS  Characterize the structure of an optimal solution. Recursively define the value of an optimal soluti">
+<meta name="keywords" content="algorithm,dynamic programming">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Dynamic Programming exercise">
+<meta property="og:url" content="http://yoursite.com/2018/10/30/Dynamic-Programming-exercise/index.html">
+<meta property="og:site_name" content="0o0 Diary">
+<meta property="og:description" content="Those who cannt remember the past are condemned to repeat it把问题划分为重复性的子问题，并记住计算过的部分来避免重复计算  STEPS  Characterize the structure of an optimal solution. Recursively define the value of an optimal soluti">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-10-30T09:00:31.015Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Dynamic Programming exercise">
+<meta name="twitter:description" content="Those who cannt remember the past are condemned to repeat it把问题划分为重复性的子问题，并记住计算过的部分来避免重复计算  STEPS  Characterize the structure of an optimal solution. Recursively define the value of an optimal soluti">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/10/30/Dynamic-Programming-exercise/"/>
+
+
+
+
+
+  <title>Dynamic Programming exercise | 0o0 Diary</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">0o0 Diary</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">own it. live it. love it</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/30/Dynamic-Programming-exercise/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="b0o0wen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0o0 Diary">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Dynamic Programming exercise</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-30T15:20:15+08:00">
+                2018-10-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/10/30/Dynamic-Programming-exercise/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/10/30/Dynamic-Programming-exercise/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p><em>Those who cannt remember the past are condemned to repeat it</em><br><em>把问题划分为重复性的子问题，并记住计算过的部分来避免重复计算</em></p>
+</blockquote>
+<h1 id="STEPS"><a href="#STEPS" class="headerlink" title="STEPS"></a>STEPS</h1><blockquote>
+<ol>
+<li>Characterize the structure of an optimal solution.</li>
+<li>Recursively define the value of an optimal solution.</li>
+<li>Compute the value of an optimal solution.</li>
+<li>Construct an optimal solution from computed information.</li>
+</ol>
+</blockquote>
+<a id="more"></a>
+<p>近来闲暇，看看dp做做简单练习。摘要第一句引自博客，STEPS引自算法导论，感觉别人总结的真是到位</p>
+<p>先边看导论，边做小练习，做多了再自行归纳</p>
+<h1 id="上台阶"><a href="#上台阶" class="headerlink" title="上台阶"></a>上台阶</h1><p>每次可以上一个或两个台阶，上到n级台阶，问共有多少种上法<br>稍微分析便发现其实是个 斐波那契数列<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 自顶向下</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">upstairs</span><span class="params">(n)</span>:</span></span><br><span class="line">    s=&#123;<span class="number">1</span>:<span class="number">1</span>,<span class="number">2</span>:<span class="number">2</span>&#125;</span><br><span class="line">    <span class="keyword">if</span> n <span class="keyword">in</span> s.keys():</span><br><span class="line">        <span class="keyword">return</span> s[n]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">3</span>,n+<span class="number">1</span>):</span><br><span class="line">        s[i] = s[i<span class="number">-1</span>]+s[i<span class="number">-2</span>]</span><br><span class="line">    <span class="keyword">return</span> s[n]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 自底向上</span></span><br><span class="line">s=&#123;<span class="number">1</span>:<span class="number">1</span>,<span class="number">2</span>:<span class="number">2</span>&#125;</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">upstairs2</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> n <span class="keyword">in</span> s.keys():</span><br><span class="line">        <span class="keyword">return</span> s[n]</span><br><span class="line">    s[n]=upstairs2(n<span class="number">-1</span>)+upstairs2(n<span class="number">-2</span>)</span><br><span class="line">    <span class="keyword">return</span> s[n]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">p=upstairs(<span class="number">10</span>)</span><br><span class="line">q=upstairs2(<span class="number">10</span>)</span><br><span class="line">print(p,q)</span><br></pre></td></tr></table></figure></p>
+<h1 id="硬币找零"><a href="#硬币找零" class="headerlink" title="硬币找零"></a>硬币找零</h1><p>假设有三种类型的硬币1，3，5，要找零一定数额n,问最少要多少枚硬币。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 带备忘录自顶向下</span></span><br><span class="line">s = &#123;<span class="number">1</span>:<span class="number">1</span>,<span class="number">2</span>:<span class="number">2</span>,<span class="number">3</span>:<span class="number">1</span>,<span class="number">4</span>:<span class="number">2</span>,<span class="number">5</span>:<span class="number">1</span>&#125;</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">coins</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> n <span class="keyword">in</span> s.keys():</span><br><span class="line">        <span class="keyword">return</span> s[n]</span><br><span class="line">    s[n] = min(coins(n<span class="number">-1</span>),coins(n<span class="number">-3</span>),coins(n<span class="number">-5</span>))+<span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> s[n]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 自底向上</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">coins2</span><span class="params">(n)</span>:</span></span><br><span class="line">    s = &#123;<span class="number">1</span>: <span class="number">1</span>, <span class="number">2</span>: <span class="number">2</span>, <span class="number">3</span>: <span class="number">1</span>, <span class="number">4</span>: <span class="number">2</span>, <span class="number">5</span>: <span class="number">1</span>&#125;</span><br><span class="line">    <span class="keyword">if</span> n <span class="keyword">in</span> s.keys():</span><br><span class="line">        <span class="keyword">return</span> s[n]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">6</span>,n+<span class="number">1</span>):</span><br><span class="line">        s[i] = min(s[i - <span class="number">1</span>], s[i - <span class="number">3</span>], s[i - <span class="number">5</span>]) + <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> s[n]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">x=coins(<span class="number">154</span>)</span><br><span class="line">y=coins2(<span class="number">154</span>)</span><br><span class="line">print(x,y)</span><br></pre></td></tr></table></figure></p>
+<h1 id="切钢条"><a href="#切钢条" class="headerlink" title="切钢条"></a>切钢条</h1><p>算法导论书中原例：不同长度的钢条对应着不同的售价，对于长度为n的钢条，问最大售价是多少<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">p=&#123;<span class="number">1</span>:<span class="number">1</span>,<span class="number">2</span>:<span class="number">5</span>,<span class="number">3</span>:<span class="number">8</span>,<span class="number">4</span>:<span class="number">9</span>,<span class="number">5</span>:<span class="number">10</span>,<span class="number">6</span>:<span class="number">17</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 硬核循环</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rod_cut1</span><span class="params">(n)</span>:</span></span><br><span class="line">    max_price = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,n+<span class="number">1</span>):</span><br><span class="line">        tmp_max = p[i]+rod_cut1(n-i)</span><br><span class="line">        <span class="keyword">if</span> tmp_max&gt;max_price:</span><br><span class="line">            max_price = tmp_max</span><br><span class="line">    <span class="keyword">return</span> max_price</span><br><span class="line"></span><br><span class="line"><span class="comment"># 自顶向下</span></span><br><span class="line">r=&#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rod_cut2</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> n <span class="keyword">in</span> r.keys():</span><br><span class="line">        <span class="keyword">return</span> r[n]</span><br><span class="line">    r[n] = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,n+<span class="number">1</span>):</span><br><span class="line">        tmp_max = p[i]+rod_cut2(n-i)</span><br><span class="line">        <span class="keyword">if</span> tmp_max&gt;r[n]:</span><br><span class="line">            r[n] = tmp_max</span><br><span class="line">    <span class="keyword">return</span> r[n]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 自底向上</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rod_cut3</span><span class="params">(n)</span>:</span></span><br><span class="line">    r = &#123;<span class="number">0</span>:<span class="number">0</span>&#125;</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,n+<span class="number">1</span>):</span><br><span class="line">        a = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>,i+<span class="number">1</span>):</span><br><span class="line">            tmp_max = p[j]+r[i-j]</span><br><span class="line">            <span class="keyword">if</span> tmp_max&gt;a:</span><br><span class="line">                a=tmp_max</span><br><span class="line">        r[i]=a</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> r[n]</span><br><span class="line"></span><br><span class="line">x=rod_cut1(<span class="number">5</span>)</span><br><span class="line">y=rod_cut2(<span class="number">6</span>)</span><br><span class="line">z=rod_cut3(<span class="number">5</span>)</span><br><span class="line">print(x,y,z)</span><br></pre></td></tr></table></figure></p>
+<h1 id="捡苹果"><a href="#捡苹果" class="headerlink" title="捡苹果"></a>捡苹果</h1><p>一个m x n 的格子阵里，每个格子里有一些苹果。从左上角开始，每次只能向右或向下移动一格，每到一个格子就把格子里的苹果捡起来。问移动到特定格子，最多能捡多少个苹果<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">apple=[[<span class="number">1</span>,<span class="number">8</span>,<span class="number">3</span>,<span class="number">2</span>],[<span class="number">4</span>,<span class="number">3</span>,<span class="number">6</span>,<span class="number">7</span>],[<span class="number">4</span>,<span class="number">9</span>,<span class="number">8</span>,<span class="number">7</span>]]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 带备忘录自顶向下</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">r = np.zeros((<span class="number">3</span>,<span class="number">4</span>))</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">max_apple</span><span class="params">(x,y)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> r[x][y] &gt; <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> r[x][y]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> x != <span class="number">0</span> <span class="keyword">and</span> y != <span class="number">0</span>:</span><br><span class="line">        r[x][y]=max(max_apple(x<span class="number">-1</span>,y),max_apple(x,y<span class="number">-1</span>))+apple[x][y]</span><br><span class="line">    <span class="keyword">elif</span> x==<span class="number">0</span> <span class="keyword">and</span> y!=<span class="number">0</span>:</span><br><span class="line">        r[x][y]=max_apple(x,y<span class="number">-1</span>)+apple[x][y]</span><br><span class="line">    <span class="keyword">elif</span> x!=<span class="number">0</span> <span class="keyword">and</span> y==<span class="number">0</span>:</span><br><span class="line">        r[x][y] = max_apple(x<span class="number">-1</span>, y) + apple[x][y]</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        r[x][y]=apple[x][y]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> r[x][y]</span><br><span class="line"></span><br><span class="line">x = max_apple(<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line">print(x)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 自底向上</span></span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/algorithm/" rel="tag"># algorithm</a>
+          
+            <a href="/tags/dynamic-programming/" rel="tag"># dynamic programming</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/15/LOL-S8-Log/" rel="next" title="LOL S8 Log">
+                <i class="fa fa-chevron-left"></i> LOL S8 Log
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2018/10/30/Dynamic-Programming-exercise/"
+           data-title="Dynamic Programming exercise" data-url="http://yoursite.com/2018/10/30/Dynamic-Programming-exercise/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="b0o0wen" />
+          <p class="site-author-name" itemprop="name">b0o0wen</p>
+           
+              <p class="site-description motion-element" itemprop="description">A Kidult</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/b0o0wen" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#STEPS"><span class="nav-number">1.</span> <span class="nav-text">STEPS</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#上台阶"><span class="nav-number">2.</span> <span class="nav-text">上台阶</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#硬币找零"><span class="nav-number">3.</span> <span class="nav-text">硬币找零</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#切钢条"><span class="nav-number">4.</span> <span class="nav-text">切钢条</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#捡苹果"><span class="nav-number">5.</span> <span class="nav-text">捡苹果</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">b0o0wen</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Gemini
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"your-duoshuo-shortname"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
