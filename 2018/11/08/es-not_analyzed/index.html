@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="elastic search," />
 
 
 
@@ -94,17 +94,18 @@
 
 
 
-<meta name="description" content="国庆全家出游桂林">
+<meta name="description" content="es版本6.4 使某field建立索引时不分词，但是搜索时分词">
+<meta name="keywords" content="elastic search">
 <meta property="og:type" content="article">
-<meta property="og:title" content="十里飘香 桂树成林">
-<meta property="og:url" content="http://yoursite.com/2018/10/09/guilin/index.html">
+<meta property="og:title" content="es -- not_analyzed">
+<meta property="og:url" content="http://yoursite.com/2018/11/08/es-not_analyzed/index.html">
 <meta property="og:site_name" content="0o0 Diary">
-<meta property="og:description" content="国庆全家出游桂林">
+<meta property="og:description" content="es版本6.4 使某field建立索引时不分词，但是搜索时分词">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-09T12:02:44.071Z">
+<meta property="og:updated_time" content="2018-11-08T08:29:45.305Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="十里飘香 桂树成林">
-<meta name="twitter:description" content="国庆全家出游桂林">
+<meta name="twitter:title" content="es -- not_analyzed">
+<meta name="twitter:description" content="es版本6.4 使某field建立索引时不分词，但是搜索时分词">
 
 
 
@@ -133,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/10/09/guilin/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/11/08/es-not_analyzed/"/>
 
 
 
 
 
-  <title>十里飘香 桂树成林 | 0o0 Diary</title>
+  <title>es -- not_analyzed | 0o0 Diary</title>
   
 
 
@@ -282,7 +283,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/09/guilin/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/08/es-not_analyzed/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="b0o0wen">
@@ -299,7 +300,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">十里飘香 桂树成林</h1>
+          <h1 class="post-title" itemprop="name headline">es -- not_analyzed</h1>
         
 
         <div class="post-meta">
@@ -311,8 +312,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-09T19:58:20+08:00">
-                2018-10-09
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-08T10:20:10+08:00">
+                2018-11-08
               </time>
             
 
@@ -322,28 +323,6 @@
           </span>
 
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Travel/" itemprop="url" rel="index">
-                    <span itemprop="name">Travel</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
 
           
             
@@ -352,8 +331,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/10/09/guilin/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/10/09/guilin/" itemprop="commentCount"></span>
+                <a href="/2018/11/08/es-not_analyzed/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/11/08/es-not_analyzed/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -381,7 +360,74 @@
       
 
       
-        <p>国庆全家出游桂林</p>
+        <p><strong><em>es版本6.4</em></strong></p>
+<h2 id="使某field建立索引时不分词，但是搜索时分词"><a href="#使某field建立索引时不分词，但是搜索时分词" class="headerlink" title="使某field建立索引时不分词，但是搜索时分词"></a>使某field建立索引时不分词，但是搜索时分词</h2><a id="more"></a>
+<p>很多教程中说，在mapping中设置field不分词为 <code>&quot;index&quot;:&quot;not_analyzed&quot;</code>，但是版本更新，这个语法已经错误了，<code>&quot;index&quot;</code>的值只能是<code>true</code>和<code>false</code>，当值为<code>false</code>时，是表示这个field不被索引，而不是不analyze。去查询一个<code>&quot;index&quot;:false</code>的field，会报错400错误如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;reason&quot;: &quot;Cannot search on field [demand] since it is not indexed.&quot;</span><br></pre></td></tr></table></figure></p>
+<p>那该如何改？见以下链接：</p>
+<blockquote>
+<p><a href="https://www.elastic.co/blog/strings-are-dead-long-live-strings" target="_blank" rel="noopener">https://www.elastic.co/blog/strings-are-dead-long-live-strings</a></p>
+</blockquote>
+<p>就是 <code>&quot;type&quot;: &quot;keyword&quot;</code> 代替了 <code>&quot;not_analyzed&quot;</code></p>
+<p>但有个问题是，把一个field设了<code>&quot;type&quot;: &quot;keyword&quot;</code>后，不能再设置它的 <code>&quot;search_analyzer&quot;</code>，即<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">PUT /dw/_mapping/test</span><br><span class="line">&#123;</span><br><span class="line">  &quot;properties&quot;: &#123;</span><br><span class="line">      &quot;field_1&quot;:&#123;</span><br><span class="line">          &quot;type&quot;: &quot;keyword&quot;,</span><br><span class="line">          &quot;search_analyzer&quot;:&quot;standard&quot;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这样是会报错的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;reason&quot;: &quot;Mapping definition for [col1] has unsupported parameters:  [search_analyzer : standard]&quot;</span><br></pre></td></tr></table></figure></p>
+<p>这就导致了<code>&quot;type&quot;: &quot;keyword&quot;</code>的局限性，具体对比如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">PUT /dw/_mapping/test</span><br><span class="line">&#123;</span><br><span class="line">  &quot;properties&quot;: &#123;</span><br><span class="line">      &quot;field_1&quot;:&#123;</span><br><span class="line">          &quot;type&quot;: &quot;keyword&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;field_2&quot;:&#123;</span><br><span class="line">          &quot;type&quot;: &quot;text&quot;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">PUT /dw/test/1</span><br><span class="line">&#123;</span><br><span class="line">  &quot;field_1&quot;:&quot;hello world&quot;,</span><br><span class="line">  &quot;field_2&quot;:&quot;hello world&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>match</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>/</th>
+<th>“hello”</th>
+<th>“hello world”</th>
+<th>“hello world kidult”</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>“field_1”</td>
+<td>×</td>
+<td>✔️</td>
+<td>×</td>
+</tr>
+<tr>
+<td>“field_2”</td>
+<td>✔️</td>
+<td>✔️</td>
+<td>✔️</td>
+</tr>
+</tbody>
+</table>
+<p>我希望表格中右上角那个 × 是 ✔️<br>至此，已经明了了。为了实现需求，我的解决方法是：对于field_1，还是用<code>&quot;type&quot;: &quot;text&quot;</code>，然后<br><code>analyzer</code>用一个自定义的fake_analyzer——它来实现不分词<br><code>search_analyzer</code>用另一个analyzer，例如<code>&quot;standard&quot;</code></p>
+<p>ps:<br>上边已经说清楚”keyword”了，不过写都写到这儿了，就顺便记一下<code>term</code>，term把整个query当做一个词，运行如下：</p>
+<ul>
+<li>term</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>/</th>
+<th>“hello”</th>
+<th>“hello world”</th>
+<th>“hello world kidult”</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>“field_1”</td>
+<td>×</td>
+<td>✔️</td>
+<td>×</td>
+</tr>
+<tr>
+<td>“field_2”</td>
+<td>✔️</td>
+<td>×</td>
+<td>×</td>
+</tr>
+</tbody>
+</table>
 
       
     </div>
@@ -397,6 +443,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/elastic-search/" rel="tag"># elastic search</a>
+          
+        </div>
+      
 
       
       
@@ -406,8 +458,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/09/20/airflow-celery-executor/" rel="next" title="Airflow celery executor">
-                <i class="fa fa-chevron-left"></i> Airflow celery executor
+              <a href="/2018/10/30/Dynamic-Programming-exercise/" rel="next" title="Dynamic Programming exercise">
+                <i class="fa fa-chevron-left"></i> Dynamic Programming exercise
               </a>
             
           </div>
@@ -415,10 +467,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/10/12/customize-elastic-search-analyzer/" rel="prev" title="Customize elastic search analyzer">
-                Customize elastic search analyzer <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -448,8 +496,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2018/10/09/guilin/"
-           data-title="十里飘香 桂树成林" data-url="http://yoursite.com/2018/10/09/guilin/">
+      <div class="ds-thread" data-thread-key="2018/11/08/es-not_analyzed/"
+           data-title="es -- not_analyzed" data-url="http://yoursite.com/2018/11/08/es-not_analyzed/">
       </div>
     
   </div>
@@ -474,8 +522,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.jpg"
@@ -561,6 +618,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#使某field建立索引时不分词，但是搜索时分词"><span class="nav-number">1.</span> <span class="nav-text">使某field建立索引时不分词，但是搜索时分词</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
