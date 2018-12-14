@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[no looking down on gitignore]]></title>
+    <url>%2F2018%2F12%2F14%2Fno-looking-down-on-gitignore%2F</url>
+    <content type="text"><![CDATA[对已在版本库中的文件，.gitignore不起作用1git rm -r --cached . 然后再修改.gitignore，当然还需要再提交一下12git add .git commit -m &apos;update .gitignore&apos; 彻底删除版本库中涉敏文件一个高级的命令：git filter-branch如果一些敏感文件在最初已经提交过了，然后随着项目的进行，想起来应该避免提交包含数据库帐密的文件。但此时，通过以上修改 .gitignore，然后删除工作区文件，再提交这样是不行的！虽然在最新的版本中，已经删除了，但是在这次历史版本中还是有的。此时就需要使用git filter-branch 例如，以下util路径下的mysql_config.json是我们要在历史版本中删除的涉敏文件1git filter-branch --force --index-filter &apos;git rm --cached --ignore-unmatch util/mysql_config.json&apos; --prune-empty --tag-name-filter cat -- --all 这样，所有的commit历史纪录都会被改写。 在本地下的commit历史已经被改了，但是远程仓库的还未变。在远程仓库中删除涉敏文件才是我们根本目的啊。而此时git push origin master报错了。 这种情况下就需要1git push origin master --force 我们可以看到--force的释义如下1--force -- allow refs that are not ancestors to be updated 参考自 https://www.jianshu.com/p/17e5adf47da5]]></content>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[linux service and its auto start-up]]></title>
     <url>%2F2018%2F12%2F14%2Flinux-service-and-its-auto-start-up%2F</url>
     <content type="text"><![CDATA[添加到service很简单，就是service会到 /etc/init.d 下寻找可执行脚本，然后运行该脚本。以我新添加的service elasticsearch start 为例：在 /etc/init.d 下添加 elasticsearch 脚本，权限 755脚本内容如下： 12345678910111213141516171819202122232425262728#!/bin/bash#chkconfig:2345 80 05 --指定在哪几个级别执行。80为启动的优先级，05为关闭的优先级。启动与关闭都是，数字小的优先执行#description: elasticsearch start-upRETVAL=0start()&#123; su - es -c "cd elasticsearch-6.3.2/bin &amp;&amp; ./elasticsearch -d" echo '[start]'&#125;stop()&#123; espid=`lsof -i:9200|sed '1d'|awk '&#123;print $2&#125;' | sed -n '1p'` kill -9 $espid echo '[stop]'&#125;case $1 in start) start ;; stop) stop ;; restart) stop start ;;esacexit $RETVAL service的添加是即时生效的，不需任何重启，这样就可以了 开机启动chkconfig是用于把服务加到开机自动启动列表里12chkconfig --add elasticsearch chkconfig elasticsearch on 或 off 然后在 etc/rc.d/rc2 3 4 5.d 下就会看到 S80elasticsearch，添加到自启动成功S80即其启动的优先级，关闭是K05 [kill]。启动与关闭都是，数字小的优先执行。 附：Linux 的7个运行级别运行级别0：系统停机状态，系统默认运行级别不能设为0，否则不能正常启动 运行级别1：单用户工作状态，root权限，用于系统维护，禁止远程登陆 运行级别2：多用户状态(没有NFS) 运行级别3：完全的多用户状态(有NFS)，登陆后进入控制台命令行模式 运行级别4：系统未使用，保留 运行级别5：X11控制台，登陆后进入图形GUI模式 运行级别6：系统正常关闭并重启，默认运行级别不能设为6，否则不能正常启动 所以一般都是2345… 脚本中的几个Linux命令su - es -c “xxxx” su es，并且采用es用户的环境变量，来执行后边的命令 “xxxx” 这条命令对自动执行各种不能以root执行的程序，实在是太实用了 awk awk 是行处理工具，是一行一行地对行内的内容处理，例如修改每行中的一些字符 awk对一行处理时，对行内元素，默认以空格为分割符，也可以自定义分割符 sed sed 也是行处理工具，它是一次处理一行，例如删除某行 sed 的参数与vim命令类似，例如 ‘1d’ 删除第一行]]></content>
