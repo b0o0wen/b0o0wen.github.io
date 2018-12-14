@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="elastic search," />
+  <meta name="keywords" content="linux," />
 
 
 
@@ -94,18 +94,18 @@
 
 
 
-<meta name="description" content="es版本6.4 使某field建立索引时不分词，但是搜索时分词">
-<meta name="keywords" content="elastic search">
+<meta name="description" content="添加到service很简单，就是service会到 /etc/init.d 下寻找可执行脚本，然后运行该脚本。">
+<meta name="keywords" content="linux">
 <meta property="og:type" content="article">
-<meta property="og:title" content="es -- not_analyzed">
-<meta property="og:url" content="http://yoursite.com/2018/11/08/es-not_analyzed/index.html">
+<meta property="og:title" content="linux service and its auto start-up">
+<meta property="og:url" content="http://yoursite.com/2018/12/14/linux-service-and-its-auto-start-up/index.html">
 <meta property="og:site_name" content="0o0 Diary">
-<meta property="og:description" content="es版本6.4 使某field建立索引时不分词，但是搜索时分词">
+<meta property="og:description" content="添加到service很简单，就是service会到 /etc/init.d 下寻找可执行脚本，然后运行该脚本。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-11-08T08:29:45.305Z">
+<meta property="og:updated_time" content="2018-12-14T06:51:11.609Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="es -- not_analyzed">
-<meta name="twitter:description" content="es版本6.4 使某field建立索引时不分词，但是搜索时分词">
+<meta name="twitter:title" content="linux service and its auto start-up">
+<meta name="twitter:description" content="添加到service很简单，就是service会到 /etc/init.d 下寻找可执行脚本，然后运行该脚本。">
 
 
 
@@ -134,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/11/08/es-not_analyzed/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/12/14/linux-service-and-its-auto-start-up/"/>
 
 
 
 
 
-  <title>es -- not_analyzed | 0o0 Diary</title>
+  <title>linux service and its auto start-up | 0o0 Diary</title>
   
 
 
@@ -283,7 +283,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/08/es-not_analyzed/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/14/linux-service-and-its-auto-start-up/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="b0o0wen">
@@ -300,7 +300,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">es -- not_analyzed</h1>
+          <h1 class="post-title" itemprop="name headline">linux service and its auto start-up</h1>
         
 
         <div class="post-meta">
@@ -312,8 +312,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-08T10:20:10+08:00">
-                2018-11-08
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-14T10:44:10+08:00">
+                2018-12-14
               </time>
             
 
@@ -331,8 +331,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/11/08/es-not_analyzed/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/11/08/es-not_analyzed/" itemprop="commentCount"></span>
+                <a href="/2018/12/14/linux-service-and-its-auto-start-up/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/12/14/linux-service-and-its-auto-start-up/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -360,74 +360,22 @@
       
 
       
-        <p><strong><em>es版本6.4</em></strong></p>
-<h2 id="使某field建立索引时不分词，但是搜索时分词"><a href="#使某field建立索引时不分词，但是搜索时分词" class="headerlink" title="使某field建立索引时不分词，但是搜索时分词"></a>使某field建立索引时不分词，但是搜索时分词</h2><a id="more"></a>
-<p>很多教程中说，在mapping中设置field不分词为 <code>&quot;index&quot;:&quot;not_analyzed&quot;</code>，但是版本更新，这个语法已经错误了，<code>&quot;index&quot;</code>的值只能是<code>true</code>和<code>false</code>，当值为<code>false</code>时，是表示这个field不被索引，而不是不analyze。去查询一个<code>&quot;index&quot;:false</code>的field，会报错400错误如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;reason&quot;: &quot;Cannot search on field [demand] since it is not indexed.&quot;</span><br></pre></td></tr></table></figure></p>
-<p>那该如何改？见以下链接：</p>
-<blockquote>
-<p><a href="https://www.elastic.co/blog/strings-are-dead-long-live-strings" target="_blank" rel="noopener">https://www.elastic.co/blog/strings-are-dead-long-live-strings</a></p>
-</blockquote>
-<p>就是 <code>&quot;type&quot;: &quot;keyword&quot;</code> 代替了 <code>&quot;not_analyzed&quot;</code></p>
-<p>但有个问题是，把一个field设了<code>&quot;type&quot;: &quot;keyword&quot;</code>后，不能再设置它的 <code>&quot;search_analyzer&quot;</code>，即<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">PUT /dw/_mapping/test</span><br><span class="line">&#123;</span><br><span class="line">  &quot;properties&quot;: &#123;</span><br><span class="line">      &quot;field_1&quot;:&#123;</span><br><span class="line">          &quot;type&quot;: &quot;keyword&quot;,</span><br><span class="line">          &quot;search_analyzer&quot;:&quot;standard&quot;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这样是会报错的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;reason&quot;: &quot;Mapping definition for [col1] has unsupported parameters:  [search_analyzer : standard]&quot;</span><br></pre></td></tr></table></figure></p>
-<p>这就导致了<code>&quot;type&quot;: &quot;keyword&quot;</code>的局限性，具体对比如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">PUT /dw/_mapping/test</span><br><span class="line">&#123;</span><br><span class="line">  &quot;properties&quot;: &#123;</span><br><span class="line">      &quot;field_1&quot;:&#123;</span><br><span class="line">          &quot;type&quot;: &quot;keyword&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;field_2&quot;:&#123;</span><br><span class="line">          &quot;type&quot;: &quot;text&quot;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">PUT /dw/test/1</span><br><span class="line">&#123;</span><br><span class="line">  &quot;field_1&quot;:&quot;hello world&quot;,</span><br><span class="line">  &quot;field_2&quot;:&quot;hello world&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>match</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>/</th>
-<th>“hello”</th>
-<th>“hello world”</th>
-<th>“hello world kidult”</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>“field_1”</td>
-<td>×</td>
-<td>✔️</td>
-<td>×</td>
-</tr>
-<tr>
-<td>“field_2”</td>
-<td>✔️</td>
-<td>✔️</td>
-<td>✔️</td>
-</tr>
-</tbody>
-</table>
-<p>我希望表格中右上角那个 × 是 ✔️<br>至此，已经明了了。为了实现需求，我的解决方法是：对于field_1，还是用<code>&quot;type&quot;: &quot;text&quot;</code>，然后<br><code>analyzer</code>用一个自定义的fake_analyzer——它来实现不分词<br><code>search_analyzer</code>用另一个analyzer，例如<code>&quot;standard&quot;</code></p>
-<p>ps:<br>上边已经说清楚”keyword”了，不过写都写到这儿了，就顺便记一下<code>term</code>，term把整个query当做一个词，运行如下：</p>
-<ul>
-<li>term</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>/</th>
-<th>“hello”</th>
-<th>“hello world”</th>
-<th>“hello world kidult”</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>“field_1”</td>
-<td>×</td>
-<td>✔️</td>
-<td>×</td>
-</tr>
-<tr>
-<td>“field_2”</td>
-<td>✔️</td>
-<td>×</td>
-<td>×</td>
-</tr>
-</tbody>
-</table>
+        <h1 id="添加到service"><a href="#添加到service" class="headerlink" title="添加到service"></a>添加到service</h1><p>很简单，就是service会到 <code>/etc/init.d</code> 下寻找可执行脚本，然后运行该脚本。<br><a id="more"></a><br>以我新添加的<code>service elasticsearch start</code> 为例：<br>在 <code>/etc/init.d</code> 下添加 elasticsearch 脚本，权限 755<br>脚本内容如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment">#chkconfig:2345 80 05  --指定在哪几个级别执行。80为启动的优先级，05为关闭的优先级。启动与关闭都是，数字小的优先执行</span></span><br><span class="line"><span class="comment">#description: elasticsearch start-up</span></span><br><span class="line">RETVAL=0</span><br><span class="line"><span class="function"><span class="title">start</span></span>()&#123;</span><br><span class="line">  su - es -c <span class="string">"cd elasticsearch-6.3.2/bin &amp;&amp; ./elasticsearch -d"</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">'[start]'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">stop</span></span>()&#123;</span><br><span class="line">  espid=`lsof -i:9200|sed <span class="string">'1d'</span>|awk <span class="string">'&#123;print $2&#125;'</span> | sed -n <span class="string">'1p'</span>`</span><br><span class="line">  <span class="built_in">kill</span> -9 <span class="variable">$espid</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">'[stop]'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">case</span> <span class="variable">$1</span> <span class="keyword">in</span></span><br><span class="line">  start)</span><br><span class="line">      start</span><br><span class="line">      ;;</span><br><span class="line">  stop)</span><br><span class="line">      stop</span><br><span class="line">      ;;</span><br><span class="line">  restart)</span><br><span class="line">      stop</span><br><span class="line">      start</span><br><span class="line">      ;;</span><br><span class="line"><span class="keyword">esac</span></span><br><span class="line"><span class="built_in">exit</span> <span class="variable">$RETVAL</span></span><br></pre></td></tr></table></figure>
+<p>service的添加是即时生效的，不需任何重启，这样就可以了</p>
+<h1 id="开机启动"><a href="#开机启动" class="headerlink" title="开机启动"></a>开机启动</h1><p>chkconfig是用于把服务加到开机自动启动列表里<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chkconfig --add elasticsearch </span><br><span class="line">chkconfig elasticsearch on 或 off</span><br></pre></td></tr></table></figure></p>
+<p>然后在 <code>etc/rc.d/rc2 3 4 5.d</code> 下就会看到 <code>S80elasticsearch</code>，添加到自启动成功<br><code>S80</code>即其启动的优先级，关闭是<code>K05</code> [kill]。启动与关闭都是，数字小的优先执行。</p>
+<h1 id="附：Linux-的7个运行级别"><a href="#附：Linux-的7个运行级别" class="headerlink" title="附：Linux 的7个运行级别"></a>附：Linux 的7个运行级别</h1><pre><code>运行级别0：系统停机状态，系统默认运行级别不能设为0，否则不能正常启动
+运行级别1：单用户工作状态，root权限，用于系统维护，禁止远程登陆
+运行级别2：多用户状态(没有NFS)
+运行级别3：完全的多用户状态(有NFS)，登陆后进入控制台命令行模式
+运行级别4：系统未使用，保留
+运行级别5：X11控制台，登陆后进入图形GUI模式
+运行级别6：系统正常关闭并重启，默认运行级别不能设为6，否则不能正常启动
+</code></pre><p>所以一般都是2345…</p>
+<h1 id="脚本中的几个Linux命令"><a href="#脚本中的几个Linux命令" class="headerlink" title="脚本中的几个Linux命令"></a>脚本中的几个Linux命令</h1><h3 id="su-es-c-“xxxx”"><a href="#su-es-c-“xxxx”" class="headerlink" title="su - es -c “xxxx”"></a>su - es -c “xxxx”</h3><p>  su es，并且采用es用户的环境变量，来执行后边的命令 “xxxx”<br>  这条命令对自动执行各种不能以root执行的程序，实在是太实用了</p>
+<h3 id="awk"><a href="#awk" class="headerlink" title="awk"></a>awk</h3><p>  awk 是行处理工具，是一行一行地对行内的内容处理，例如修改每行中的一些字符<br>  awk对一行处理时，对行内元素，默认以空格为分割符，也可以自定义分割符</p>
+<h3 id="sed"><a href="#sed" class="headerlink" title="sed"></a>sed</h3><p>  sed 也是行处理工具，它是一次处理一行，例如删除某行<br>  sed 的参数与vim命令类似，例如 ‘1d’ 删除第一行</p>
 
       
     </div>
@@ -445,7 +393,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/elastic-search/" rel="tag"># elastic search</a>
+            <a href="/tags/linux/" rel="tag"># linux</a>
           
         </div>
       
@@ -458,8 +406,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/10/30/Dynamic-Programming-exercise/" rel="next" title="Dynamic Programming exercise">
-                <i class="fa fa-chevron-left"></i> Dynamic Programming exercise
+              <a href="/2018/12/01/es-systematic-design/" rel="next" title="es systematic design">
+                <i class="fa fa-chevron-left"></i> es systematic design
               </a>
             
           </div>
@@ -467,10 +415,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/12/01/es-systematic-design/" rel="prev" title="es systematic design">
-                es systematic design <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -500,8 +444,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2018/11/08/es-not_analyzed/"
-           data-title="es -- not_analyzed" data-url="http://yoursite.com/2018/11/08/es-not_analyzed/">
+      <div class="ds-thread" data-thread-key="2018/12/14/linux-service-and-its-auto-start-up/"
+           data-title="linux service and its auto start-up" data-url="http://yoursite.com/2018/12/14/linux-service-and-its-auto-start-up/">
       </div>
     
   </div>
@@ -632,7 +576,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#使某field建立索引时不分词，但是搜索时分词"><span class="nav-number">1.</span> <span class="nav-text">使某field建立索引时不分词，但是搜索时分词</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#添加到service"><span class="nav-number">1.</span> <span class="nav-text">添加到service</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#开机启动"><span class="nav-number">2.</span> <span class="nav-text">开机启动</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#附：Linux-的7个运行级别"><span class="nav-number">3.</span> <span class="nav-text">附：Linux 的7个运行级别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#脚本中的几个Linux命令"><span class="nav-number">4.</span> <span class="nav-text">脚本中的几个Linux命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#su-es-c-“xxxx”"><span class="nav-number">4.0.1.</span> <span class="nav-text">su - es -c “xxxx”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#awk"><span class="nav-number">4.0.2.</span> <span class="nav-text">awk</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sed"><span class="nav-number">4.0.3.</span> <span class="nav-text">sed</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
