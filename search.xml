@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[linux frequantly used command]]></title>
+    <url>%2F2018%2F12%2F18%2Flinux-frequantly-used-command%2F</url>
+    <content type="text"><![CDATA[lsof, netstat, grep -v grep, awk, xargs, kill -9 查看占用端口的进程1.1lsof -i:5000 输出12COMMAND PID USER FD TYPE DEVICE SIZE/OFF NODE NAMEpython3.6 1468 root 5u IPv4 66961000 0t0 TCP *:commplex-main (LISTEN) 2.1netstat -apn | grep 5000 最后一项显示的是pid和对应的名称1tcp 0 0 0.0.0.0:5000 0.0.0.0:* LISTEN 1468/python 批量kill进程1ps -ef | grep test | grep -v grep | awk '&#123;print $2&#125;' | xargs kill -9 awk 行处理器，以空格为默认分隔符将每行切片xargs 命令是给命令传递参数的过滤器，把标准数据转换成命令行参数。在这里则是将获取前一个命令的标准输出然后转换成命令行参数传递给后面的kill命令kill的-9 强制结束]]></content>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[no looking down on gitignore]]></title>
     <url>%2F2018%2F12%2F14%2Fno-looking-down-on-gitignore%2F</url>
     <content type="text"><![CDATA[对已在版本库中的文件，.gitignore不起作用1git rm -r --cached . 然后再修改.gitignore，当然还需要再提交一下12git add .git commit -m &apos;update .gitignore&apos; 彻底删除版本库中涉敏文件一个高级的命令：git filter-branch如果一些敏感文件在最初已经提交过了，然后随着项目的进行，想起来应该避免提交包含数据库帐密的文件。但此时，通过以上修改 .gitignore，然后删除工作区文件，再提交这样是不行的！虽然在最新的版本中，已经删除了，但是在这次历史版本中还是有的。此时就需要使用git filter-branch 例如，以下util路径下的mysql_config.json是我们要在历史版本中删除的涉敏文件1git filter-branch --force --index-filter &apos;git rm --cached --ignore-unmatch util/mysql_config.json&apos; --prune-empty --tag-name-filter cat -- --all 这样，所有的commit历史纪录都会被改写。 在本地下的commit历史已经被改了，但是远程仓库的还未变。在远程仓库中删除涉敏文件才是我们根本目的啊。而此时git push origin master报错了。 这种情况下就需要1git push origin master --force 我们可以看到--force的释义如下1--force -- allow refs that are not ancestors to be updated 参考自 https://www.jianshu.com/p/17e5adf47da5]]></content>
