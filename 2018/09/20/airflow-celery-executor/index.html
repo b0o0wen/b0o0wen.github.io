@@ -366,7 +366,7 @@
 <a id="more"></a>
 <p>airflow是一个任务流工具，它基本的local executor已经可以满足大部分的需求，但是不能在web端点击run。因此配置celery executor来提高可用性。</p>
 <h2 id="celery"><a href="#celery" class="headerlink" title="celery"></a>celery</h2><p>celery是一个Python写的分布式框架</p>
-<h3 id="broker"><a href="#broker" class="headerlink" title="broker"></a>broker</h3><p>broker就是一个消息队列来分发消息，celery推荐Rabbitmq，Redis。<br>个人用rabbitmq<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl add_user root</span><br><span class="line">rabbitmqctl set_user_tags root administrator</span><br><span class="line">rabbitmqctl add_vhost airflow </span><br><span class="line">rabbitmqctl set_permissions -p airflow root “.” “.” “.*”</span><br></pre></td></tr></table></figure></p>
+<h3 id="broker"><a href="#broker" class="headerlink" title="broker"></a>broker</h3><p>broker就是一个消息队列来分发消息，celery推荐Rabbitmq，Redis。<br>个人用rabbitmq<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">rabbitmqctl</span> <span class="keyword">add_user </span>root</span><br><span class="line"><span class="symbol">rabbitmqctl</span> set_user_tags root administrator</span><br><span class="line"><span class="symbol">rabbitmqctl</span> <span class="keyword">add_vhost </span>airflow </span><br><span class="line"><span class="symbol">rabbitmqctl</span> set_permissions -p airflow root “.” “.” “.*”</span><br></pre></td></tr></table></figure></p>
 <p>直接设为administrator 2333</p>
 <h3 id="worker"><a href="#worker" class="headerlink" title="worker"></a>worker</h3><p>worker就是执行者，可以是分布式的。在一台机器上的话，worker数量不是越多越好，celery建议worker数量不超过总逻辑cpu数的两倍。</p>
 <h3 id="backend"><a href="#backend" class="headerlink" title="backend"></a>backend</h3><p>backend用来存储worker执行的结果。<br>我个人用postgresql。当然也可以用Redis或mq</p>
@@ -377,10 +377,10 @@
 <h2 id="airflow-celery配置"><a href="#airflow-celery配置" class="headerlink" title="airflow celery配置"></a>airflow celery配置</h2><p>在airflow.cfg中的配置就很方便</p>
 <ol>
 <li><p>配broker，就改下 broker_url，例如</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">broker_url = amqp://root:111111@localhost:5672/airflow</span><br></pre></td></tr></table></figure>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">broker_url = <span class="string">amqp:</span><span class="comment">//root:111111@localhost:5672/airflow</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>配backend，就改下 celery_result_backend，格式</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">celery_result_backend = db+postgresql://bowen:111111@localhost/celery_backend_for_airflow</span><br></pre></td></tr></table></figure>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">celery_result_backend = db+<span class="string">postgresql:</span><span class="comment">//bowen:111111@localhost/celery_backend_for_airflow</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>然后启动worker<br> celery默认不能以root用户启动worker，启动airflow worker就有了问题：</p>
 <ul>
@@ -388,12 +388,12 @@
 <li>也不能以普通用户运行worker<br>  airflow worker 要写入airflow的log，但是普通用户运行的worker没有权限写入以root生成的log文件。<br>  因为log总要生成新的，所以不能通过手动改所以log文件的权限来解决。</li>
 <li><p>所以就有两个解决方法：<br>  1) 修改airflow生成log部分的代码，使之o+w。但是说不定改了这个权限后还有别的权限问题。<br>  2) 修改airflow调用celery的部分，使之可以root运行</p>
 <p>参照其他博文，用2，在airflow包里的<code>xxxx/site-packages/airflow/executors</code>里的<code>celery_executor.py</code>加上</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">from celery import platforms</span><br><span class="line">platforms.C_FORCE_ROOT = True</span><br></pre></td></tr></table></figure>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> celery <span class="keyword">import</span> platforms</span><br><span class="line">platforms.C_FORCE_ROOT = <span class="literal">True</span></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 </li>
 </ol>
-<p>之后一顿重启，基本就ok了。有问题可以直接在rabbitmq或者pg中看是哪步出了问题。启动worker可以指定pid file，并且Daemon<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">airflow worker --pid ~/airflow/airflow-worker.pid -D</span><br></pre></td></tr></table></figure></p>
+<p>之后一顿重启，基本就ok了。有问题可以直接在rabbitmq或者pg中看是哪步出了问题。启动worker可以指定pid file，并且Daemon<br><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">airflow worker <span class="params">--pid</span> ~<span class="string">/airflow/airflow-worker.pid</span> -D</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -517,7 +517,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -539,7 +539,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
