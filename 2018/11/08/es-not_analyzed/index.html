@@ -362,14 +362,14 @@
       
         <p><strong><em>es版本6.4</em></strong></p>
 <h2 id="使某field建立索引时不分词，但是搜索时分词"><a href="#使某field建立索引时不分词，但是搜索时分词" class="headerlink" title="使某field建立索引时不分词，但是搜索时分词"></a>使某field建立索引时不分词，但是搜索时分词</h2><a id="more"></a>
-<p>很多教程中说，在mapping中设置field不分词为 <code>&quot;index&quot;:&quot;not_analyzed&quot;</code>，但是版本更新，这个语法已经错误了，<code>&quot;index&quot;</code>的值只能是<code>true</code>和<code>false</code>，当值为<code>false</code>时，是表示这个field不被索引，而不是不analyze。去查询一个<code>&quot;index&quot;:false</code>的field，会报错400错误如下：<br><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"reason"</span>: <span class="string">"Cannot search on field [demand] since it is not indexed."</span></span><br></pre></td></tr></table></figure></p>
+<p>很多教程中说，在mapping中设置field不分词为 <code>&quot;index&quot;:&quot;not_analyzed&quot;</code>，但是版本更新，这个语法已经错误了，<code>&quot;index&quot;</code>的值只能是<code>true</code>和<code>false</code>，当值为<code>false</code>时，是表示这个field不被索引，而不是不analyze。去查询一个<code>&quot;index&quot;:false</code>的field，会报错400错误如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"reason"</span>: <span class="string">"Cannot search on field [demand] since it is not indexed."</span></span><br></pre></td></tr></table></figure></p>
 <p>那该如何改？见以下链接：</p>
 <blockquote>
 <p><a href="https://www.elastic.co/blog/strings-are-dead-long-live-strings" target="_blank" rel="noopener">https://www.elastic.co/blog/strings-are-dead-long-live-strings</a></p>
 </blockquote>
 <p>就是 <code>&quot;type&quot;: &quot;keyword&quot;</code> 代替了 <code>&quot;not_analyzed&quot;</code></p>
 <p>但有个问题是，把一个field设了<code>&quot;type&quot;: &quot;keyword&quot;</code>后，不能再设置它的 <code>&quot;search_analyzer&quot;</code>，即<br><figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">PUT /dw/_mapping/test</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"properties"</span>: &#123;</span><br><span class="line">      <span class="string">"field_1"</span>:&#123;</span><br><span class="line">          <span class="string">"type"</span>: <span class="string">"keyword"</span>,</span><br><span class="line">          <span class="string">"search_analyzer"</span>:<span class="string">"standard"</span></span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这样是会报错的：<br><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"reason"</span>: <span class="string">"Mapping definition for [col1] has unsupported parameters:  [search_analyzer : standard]"</span></span><br></pre></td></tr></table></figure></p>
+<p>这样是会报错的：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"reason"</span>: <span class="string">"Mapping definition for [col1] has unsupported parameters:  [search_analyzer : standard]"</span></span><br></pre></td></tr></table></figure></p>
 <p>这就导致了<code>&quot;type&quot;: &quot;keyword&quot;</code>的局限性，具体对比如下</p>
 <figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">PUT /dw/_mapping/test</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"properties"</span>: &#123;</span><br><span class="line">      <span class="string">"field_1"</span>:&#123;</span><br><span class="line">          <span class="string">"type"</span>: <span class="string">"keyword"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">"field_2"</span>:&#123;</span><br><span class="line">          <span class="string">"type"</span>: <span class="string">"text"</span></span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">PUT /dw/test/<span class="number">1</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"field_1"</span>:<span class="string">"hello world"</span>,</span><br><span class="line">  <span class="string">"field_2"</span>:<span class="string">"hello world"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
@@ -551,7 +551,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -662,7 +662,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2018</span>
+  <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

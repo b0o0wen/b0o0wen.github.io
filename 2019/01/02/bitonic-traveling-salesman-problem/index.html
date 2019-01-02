@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="dynamic programming," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="keywords" content="dynamic programming">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Bitonic Traveling Salesman Problem">
+<meta property="og:url" content="http://yoursite.com/2019/01/02/bitonic-traveling-salesman-problem/index.html">
+<meta property="og:site_name" content="0o0 Diary">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2019/01/02/bitonic-traveling-salesman-problem/bitonic_tsp.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/02/bitonic-traveling-salesman-problem/problem_in_book.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/02/bitonic-traveling-salesman-problem/4_points.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/02/bitonic-traveling-salesman-problem/compare.png">
+<meta property="og:updated_time" content="2019-01-02T16:15:05.430Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Bitonic Traveling Salesman Problem">
+<meta name="twitter:image" content="http://yoursite.com/2019/01/02/bitonic-traveling-salesman-problem/bitonic_tsp.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/02/bitonic-traveling-salesman-problem/"/>
+
+
+
+
+
+  <title>Bitonic Traveling Salesman Problem | 0o0 Diary</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">0o0 Diary</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">own it. live it. love it</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/02/bitonic-traveling-salesman-problem/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="b0o0wen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0o0 Diary">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Bitonic Traveling Salesman Problem</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-02T18:09:56+08:00">
+                2019-01-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/02/bitonic-traveling-salesman-problem/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/01/02/bitonic-traveling-salesman-problem/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <img src="/2019/01/02/bitonic-traveling-salesman-problem/bitonic_tsp.png" title="pic-1 from INTRODUCTION TO ALGORITHMS">
+<a id="more"></a>
+<p><code>bitonic旅行商问题</code>是<code>算法导论</code>中的一个例题，也是很经典的一个dp问题。</p>
+<h1 id="v-1-dp-it"><a href="#v-1-dp-it" class="headerlink" title="v-1 dp it"></a>v-1 dp it</h1><p>dp 的关键就是找到 recursive substructure</p>
+<blockquote>
+<p><a href="https://scicomp.stackexchange.com/questions/812/how-to-implement-a-dynamic-programming-solution-to-the-2d-bitonic-euclidean-trav" target="_blank" rel="noopener">https://scicomp.stackexchange.com/questions/812/how-to-implement-a-dynamic-programming-solution-to-the-2d-bitonic-euclidean-trav</a></p>
+</blockquote>
+<p>翻译一下，就是最右点n必须与次右点n-1相连，才能保证bitonic。把n点出发，n-1点结束的最短路径称为bitonic_path<br>而当点 n 与 中间任意点 k 相连时，k+1点到n-1点间所有点必须依次递增相连才能保证bitonic<br>此时可以发现，k点和k+1点成为了相同子结构的bitonic_path问题</p>
+<p>对应到Python中，对于长度为n的点list，最右点为n-1<br>方便起见，输入的点list是从左到右的，如果不是的话，加一个排序也很简单</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">eu_dist</span><span class="params">(a,b)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> np.sqrt(np.sum(np.square(np.array(a)-np.array(b))))</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BitonicTSP</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, points)</span>:</span></span><br><span class="line">        self.n = len(points)</span><br><span class="line">        <span class="comment"># 任意两点间线段距离</span></span><br><span class="line">        self.p2p_dist = np.zeros((self.n, self.n))</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(self.n<span class="number">-1</span>):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(i + <span class="number">1</span>, self.n, <span class="number">1</span>):</span><br><span class="line">                self.p2p_dist[i][j] = eu_dist(points[i], points[j])</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 任意两点间，递增线段累积路径</span></span><br><span class="line">        <span class="comment"># 如 acc_dist[1][4] = p2p_dist[1][2] + p2p_dist[2][3] + p2p_dist[3][4]</span></span><br><span class="line">        self.acc_dist = np.zeros((self.n, self.n))</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(self.n<span class="number">-1</span>):</span><br><span class="line">            self.acc_dist[i][i+<span class="number">1</span>] = self.p2p_dist[i][i+<span class="number">1</span>]</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(i+<span class="number">2</span>,self.n):</span><br><span class="line">                self.acc_dist[i][j] = self.acc_dist[i][j<span class="number">-1</span>] + self.p2p_dist[j<span class="number">-1</span>][j]</span><br><span class="line"></span><br><span class="line">        self.bitonic_result = &#123;&#125;</span><br><span class="line">        self.bitonic_result[<span class="number">1</span>] = self.p2p_dist[<span class="number">0</span>][<span class="number">1</span>]</span><br><span class="line">        <span class="comment"># self.bitonic_result[2] = self.p2p_dist[0][1] + self.p2p_dist[0][2]</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># bitonic path between points[n-2] and points[n-1]</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">bitonic_path</span><span class="params">(self,p)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> p <span class="keyword">in</span> self.bitonic_result.keys():</span><br><span class="line">            <span class="keyword">return</span> self.bitonic_result[p]</span><br><span class="line">        self.bitonic_result[p] = <span class="number">1000000</span></span><br><span class="line">        <span class="comment"># points in [0,p-1], length p</span></span><br><span class="line">        <span class="comment"># k in [1,n-2]</span></span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> range(<span class="number">0</span>,p<span class="number">-1</span>):</span><br><span class="line">            self.bitonic_result[p] = min(self.bitonic_result[p], self.p2p_dist[k][p] + self.acc_dist[k+<span class="number">1</span>][p<span class="number">-1</span>] + self.bitonic_path(k+<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">full_path</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,self.n):</span><br><span class="line">            self.bitonic_path(i)</span><br><span class="line">        print(self.bitonic_result[self.n<span class="number">-1</span>] + self.p2p_dist[self.n<span class="number">-2</span>][self.n<span class="number">-1</span>])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    points = [</span><br><span class="line">        [<span class="number">0</span>, <span class="number">6</span>],</span><br><span class="line">        [<span class="number">1</span>, <span class="number">0</span>],</span><br><span class="line">        [<span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">        [<span class="number">5</span>, <span class="number">4</span>],</span><br><span class="line">        [<span class="number">6</span>, <span class="number">1</span>],</span><br><span class="line">        [<span class="number">7</span>, <span class="number">5</span>],</span><br><span class="line">        [<span class="number">8</span>, <span class="number">2</span>]]</span><br><span class="line">    app = BitonicTSP(points)</span><br><span class="line">    app.full_path()</span><br></pre></td></tr></table></figure>
+<p><strong>output:</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">25<span class="selector-class">.58402459469133</span></span><br></pre></td></tr></table></figure></p>
+<p>结果正确 ✔️ 😋</p>
+<h1 id="v-2-plot-it"><a href="#v-2-plot-it" class="headerlink" title="v-2 plot it"></a>v-2 plot it</h1><p>给定一堆点，我不仅想知道最短距离是多少，更想知道最短距离是如何走的。<br>想一下，v-1 版本的方法似乎是不行的。</p>
+<ol>
+<li>v-1是自底向上dp的，而实际在最终的结果中，后边的点对左边的点，是有约束的。那这样自底向上自然是不够的。 [details will be at the end of this part]</li>
+<li>并且method<code>bitonic_path</code>只有一个入参，那就已经假定了bitonic_path 是k点和k+1点间的bitonic_path。这更是一个死穴。严重不足，有待改进。<br>由此有了v-2版本</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">eu_dist</span><span class="params">(a,b)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> np.sqrt(np.sum(np.square(np.array(a)-np.array(b))))</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BitonicTSP</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, points)</span>:</span></span><br><span class="line">        self.n = len(points)</span><br><span class="line">        <span class="comment"># 任意两点间线段距离</span></span><br><span class="line">        self.p2p_dist = np.zeros((self.n, self.n))</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(self.n<span class="number">-1</span>):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(i + <span class="number">1</span>, self.n, <span class="number">1</span>):</span><br><span class="line">                self.p2p_dist[i][j] = eu_dist(points[i], points[j])</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 任意两点间，递增线段累积路径</span></span><br><span class="line">        <span class="comment"># 如 acc_dist[1][4] = p2p_dist[1][2] + p2p_dist[2][3] + p2p_dist[3][4]</span></span><br><span class="line">        self.acc_dist = np.zeros((self.n, self.n))</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(self.n<span class="number">-1</span>):</span><br><span class="line">            self.acc_dist[i][i+<span class="number">1</span>] = self.p2p_dist[i][i+<span class="number">1</span>]</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(i+<span class="number">2</span>,self.n):</span><br><span class="line">                self.acc_dist[i][j] = self.acc_dist[i][j<span class="number">-1</span>] + self.p2p_dist[j<span class="number">-1</span>][j]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># bitonic_path 记录以 x,y两点为终点，走过所以小于等于y的点的bitonic_path最小值，不包括 p2p_dist[x][y]</span></span><br><span class="line">        <span class="comment"># assume x &lt; y</span></span><br><span class="line">        <span class="comment"># bitonic_path 从底向上刷</span></span><br><span class="line">        self.bitonic_path = np.zeros((self.n, self.n))</span><br><span class="line">        self.bitonic_path[<span class="number">0</span>][<span class="number">1</span>] = self.p2p_dist[<span class="number">0</span>][<span class="number">1</span>]</span><br><span class="line">        <span class="comment"># mark_table 记录</span></span><br><span class="line">        <span class="comment"># mark_table 则需要自顶向下刷一遍</span></span><br><span class="line">        self.mark_table = np.zeros((self.n,self.n))</span><br><span class="line"></span><br><span class="line">        self.link_dist = &#123;&#125;</span><br><span class="line">        self.total_journey = <span class="number">1000000000</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># assume x&lt;y</span></span><br><span class="line">    <span class="comment"># 自底向上</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">bitonic_p</span><span class="params">(self,x,y)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> self.bitonic_path[x][y]&gt;<span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> self.bitonic_path[x][y]</span><br><span class="line"></span><br><span class="line">        self.bitonic_path[x][y] = <span class="number">1000000000</span></span><br><span class="line">        <span class="keyword">if</span> y-x == <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">for</span> k <span class="keyword">in</span> range(y<span class="number">-1</span>):</span><br><span class="line">                <span class="comment"># self.bitonic_path[x][y] = min(self.bitonic_path[x][y], self.bitonic_path[k][x] + self.p2p_dist[k][y])</span></span><br><span class="line">                tmp = self.bitonic_path[k][x] + self.p2p_dist[k][y]</span><br><span class="line">                <span class="keyword">if</span> tmp &lt; self.bitonic_path[x][y]:</span><br><span class="line">                    self.bitonic_path[x][y] = tmp</span><br><span class="line">                    <span class="comment"># self.link_dist[y] = k</span></span><br><span class="line">                    self.mark_table[x][y] = k</span><br><span class="line">        <span class="keyword">elif</span> y-x &gt;<span class="number">1</span>:</span><br><span class="line">            self.bitonic_path[x][y] = self.bitonic_path[x][y<span class="number">-1</span>] + self.p2p_dist[y<span class="number">-1</span>][y]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(<span class="string">'invalid x, y '</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># assume x&lt;y</span></span><br><span class="line">    <span class="comment"># refresh_mark_table 要自顶向下刷</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">refresh_mark_table</span><span class="params">(self,x,y)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> x==<span class="number">0</span> <span class="keyword">and</span> y==<span class="number">1</span>:</span><br><span class="line">            self.mark_table[x][y] = <span class="number">0</span></span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">if</span> y - x ==<span class="number">1</span>:</span><br><span class="line">            kk = <span class="keyword">None</span></span><br><span class="line">            <span class="keyword">for</span> k <span class="keyword">in</span> range(y<span class="number">-1</span>):</span><br><span class="line">                tmp  = self.bitonic_path[k][x] + self.p2p_dist[k][y]</span><br><span class="line">                <span class="comment"># 这里用 &lt;= 而不是 ==。保险起见，避免小数位数等误差导致的错误</span></span><br><span class="line">                <span class="keyword">if</span> tmp &lt;= self.bitonic_path[x][y]:</span><br><span class="line">                    kk = k</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                    <span class="comment"># break 以减少循环次数，但隐隐感觉有风险，万一碰到 两个很相近的距离，而由于小数位数导致的大小比较错误...也行这个问题不存在，不是这篇blog的重点</span></span><br><span class="line">            self.mark_table[x][y] = kk</span><br><span class="line">            self.refresh_mark_table(kk,x)</span><br><span class="line">        <span class="keyword">elif</span> y - x &gt; <span class="number">1</span> :</span><br><span class="line">            self.mark_table[x][y] = y - <span class="number">1</span></span><br><span class="line">            self.refresh_mark_table(x, y<span class="number">-1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">full_path_with_points_order</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment"># 自底向上 刷 bitonic_path</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(self.n<span class="number">-1</span>):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(i+<span class="number">1</span>,self.n,<span class="number">1</span>):</span><br><span class="line">                self.bitonic_p(i,j)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 算出最短距离</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(self.n<span class="number">-1</span>):</span><br><span class="line">            self.total_journey = min(self.total_journey, self.bitonic_path[i][self.n<span class="number">-1</span>] + self.p2p_dist[i][self.n<span class="number">-1</span>])</span><br><span class="line">        <span class="comment"># print(self.total_journey)</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 自顶向下 刷 mark_table</span></span><br><span class="line">        self.refresh_mark_table(self.n<span class="number">-2</span>,self.n<span class="number">-1</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,self.n,<span class="number">1</span>):</span><br><span class="line">            self.link_dist[i] = int(self.mark_table[:,i].max())</span><br><span class="line"></span><br><span class="line">        f1 = self.n - <span class="number">1</span></span><br><span class="line">        l1 = [f1]</span><br><span class="line">        <span class="keyword">while</span> f1 <span class="keyword">in</span> self.link_dist.keys():</span><br><span class="line">            l1.append(self.link_dist[f1])</span><br><span class="line">            f1 = self.link_dist[f1]</span><br><span class="line"></span><br><span class="line">        f2 = self.n - <span class="number">2</span></span><br><span class="line">        l2 = [f2]</span><br><span class="line">        <span class="keyword">while</span> f2 <span class="keyword">in</span> self.link_dist.keys():</span><br><span class="line">            l2.append(self.link_dist[f2])</span><br><span class="line">            f2 = self.link_dist[f2]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># return 最短路程 与 路径闭环数组</span></span><br><span class="line">        <span class="keyword">return</span> self.total_journey, l1+l2[:<span class="number">-1</span>][::<span class="number">-1</span>]+[l1[<span class="number">0</span>]]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line"></span><br><span class="line">    points = [</span><br><span class="line">        [<span class="number">0</span>, <span class="number">6</span>],</span><br><span class="line">        [<span class="number">1</span>, <span class="number">0</span>],</span><br><span class="line">        [<span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">        [<span class="number">5</span>, <span class="number">4</span>],</span><br><span class="line">        [<span class="number">6</span>, <span class="number">1</span>],</span><br><span class="line">        [<span class="number">7</span>, <span class="number">5</span>],</span><br><span class="line">        [<span class="number">8</span>, <span class="number">2</span>]]</span><br><span class="line"></span><br><span class="line">    app = BitonicTSP(points)</span><br><span class="line">    <span class="comment"># app.full_path()</span></span><br><span class="line">    (total_journey,path_list) = app.full_path_with_points_order()</span><br><span class="line"></span><br><span class="line">    fig, plot1 = plt.subplots(<span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line">    plot1.set_xlabel(<span class="string">'x label'</span>)</span><br><span class="line">    plot1.set_ylabel(<span class="string">'y label'</span>)</span><br><span class="line"></span><br><span class="line">    xs = [points[i][<span class="number">0</span>] <span class="keyword">for</span> i <span class="keyword">in</span> path_list]</span><br><span class="line">    ys = [points[i][<span class="number">1</span>] <span class="keyword">for</span> i <span class="keyword">in</span> path_list]</span><br><span class="line">    plot1.plot(xs, ys, <span class="string">'--o'</span>)</span><br><span class="line"></span><br><span class="line">    plt.show()</span><br></pre></td></tr></table></figure>
+<p><strong>output:</strong><br><figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">total_journey :  25.58402459469133</span><br><span class="line">path_list :  [6, 4, 1, 0, 2, 3, 5, 6]</span><br></pre></td></tr></table></figure></p>
+<img src="/2019/01/02/bitonic-traveling-salesman-problem/problem_in_book.png" title="pic-2 result fig">
+<p><code>refresh_mark_table</code> 这个方法虽然迫不得已又自顶向下循环了一遍，但是其实时间复杂度也是  <strong>O(n^2)</strong> 并且真实情况大多是远小于这个时间的，而且是用的<code>bitonic_path</code>已经计算好的值，所以影响也不是很大。<br>嘿嘿，还不错。</p>
+<p>现在我们回过头来看一下 v-2部分开头说到的问题，我们只取前四个点，运行看看结果<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">points = [[<span class="number">0</span>, <span class="number">6</span>],</span><br><span class="line">        [<span class="number">1</span>, <span class="number">0</span>],</span><br><span class="line">        [<span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">        [<span class="number">5</span>, <span class="number">4</span>]]</span><br></pre></td></tr></table></figure></p>
+<p><strong>output:</strong><br><figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">total_journey :  17.79248265776948</span><br><span class="line">path_list :  [3, 0, 1, 2, 3]</span><br></pre></td></tr></table></figure></p>
+<img src="/2019/01/02/bitonic-traveling-salesman-problem/4_points.png" title="pic-3 result fig of the first four points">
+<p>去掉点2，3之间的连线，是不是仍然与 pic-2 中 0，1，2，3 四点的连线不一样？（<strong>是</strong>）</p>
+<h1 id="v-bug"><a href="#v-bug" class="headerlink" title="v-bug"></a>v-bug</h1><p>其实早在我最开始思考良久未果时，就先百度了的…<br>百度上很多答案都是相同的思路：</p>
+<blockquote>
+<p><a href="http://www.mamicode.com/info-detail-2436181.html" target="_blank" rel="noopener">http://www.mamicode.com/info-detail-2436181.html</a><br><a href="https://blog.csdn.net/u013491262/article/details/22873043" target="_blank" rel="noopener">https://blog.csdn.net/u013491262/article/details/22873043</a></p>
+</blockquote>
+<p>我当时按这个思路写了一份Python版：<br><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"># Bitonic 即严格地从最左点走到最右点（去程），然后从最右点返回最左点（返程）。去程中不能有从右往左走的路线，同样返程中也不能有从左往右走的路线。</span><br><span class="line"></span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">import numpy as <span class="built_in">np</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">points</span> = [[<span class="number">0</span>, <span class="number">6</span>],[<span class="number">1</span>, <span class="number">0</span>],[<span class="number">2</span>, <span class="number">3</span>],[<span class="number">5</span>, <span class="number">4</span>],[<span class="number">6</span>, <span class="number">1</span>],[<span class="number">7</span>, <span class="number">5</span>],[<span class="number">8</span>, <span class="number">2</span>]]</span><br><span class="line"></span><br><span class="line"># 输入为以上<span class="built_in">points</span>(x坐标是递增的)</span><br><span class="line">def btsp(<span class="built_in">points</span>):</span><br><span class="line">    n = len(<span class="built_in">points</span>)</span><br><span class="line">    # 任意两点间距离</span><br><span class="line">    dist_table = <span class="built_in">np</span>.zeros((n, n))</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n-<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i + <span class="number">1</span>, n, <span class="number">1</span>):</span><br><span class="line">            dist_table[i][j] = eu_dist(<span class="built_in">points</span>[i], <span class="built_in">points</span>[j])</span><br><span class="line"></span><br><span class="line">    # result table</span><br><span class="line">    r = <span class="built_in">np</span>.zeros((n,n))</span><br><span class="line">    r[:, :] = '<span class="literal">inf</span>'</span><br><span class="line"></span><br><span class="line">    # 令 i &lt; j</span><br><span class="line">    r[<span class="number">1</span>,<span class="number">2</span>] = dist_table[<span class="number">0</span>,<span class="number">1</span>] + dist_table[<span class="number">0</span>,<span class="number">2</span>]</span><br><span class="line">    # j <span class="keyword">in</span> [<span class="number">2</span>,n-<span class="number">2</span>]   n-<span class="number">1</span>是最后终点了</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>,n-<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,j):</span><br><span class="line">            # <span class="built_in">print</span>(i,' , ',j,' - ',r[i,j])</span><br><span class="line">            # <span class="built_in">print</span>(i,'   ', j+<span class="number">1</span>,'   ',r[i,j+<span class="number">1</span>])</span><br><span class="line">            # <span class="built_in">print</span>(j,'   ',j+<span class="number">1</span>,'   ',r[j,j+<span class="number">1</span>])</span><br><span class="line">            r[i,j+<span class="number">1</span>] = <span class="built_in">min</span>(r[i,j]+dist_table[j,j+<span class="number">1</span>],r[i,j+<span class="number">1</span>])</span><br><span class="line">            r[j,j+<span class="number">1</span>] = <span class="built_in">min</span>(r[i,j]+dist_table[i,j+<span class="number">1</span>],r[j,j+<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line">    ans = <span class="number">1000000000</span></span><br><span class="line">    # i <span class="keyword">in</span> [<span class="number">1</span>,n-<span class="number">2</span>]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,n-<span class="number">1</span>):</span><br><span class="line">        ans = <span class="built_in">min</span>(ans,r[i,n-<span class="number">1</span>]+dist_table[i,n-<span class="number">1</span>])</span><br><span class="line">    <span class="built_in">return</span> ans</span><br><span class="line"></span><br><span class="line">def eu_dist(a,b):</span><br><span class="line">    <span class="built_in">return</span> <span class="built_in">np</span>.<span class="built_in">sqrt</span>(<span class="built_in">np</span>.<span class="built_in">sum</span>(<span class="built_in">np</span>.square(<span class="built_in">np</span>.<span class="built_in">array</span>(a)-<span class="built_in">np</span>.<span class="built_in">array</span>(b))))</span><br><span class="line"></span><br><span class="line">ans = btsp(<span class="built_in">points</span>)</span><br><span class="line"><span class="built_in">print</span>(ans)</span><br></pre></td></tr></table></figure></p>
+<p>这个v-bug版本不仅难以理解，而且，有bug：我们还是只取前4个点，看下跑出来的结果<br><strong>output:</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">18<span class="selector-class">.507445715422968</span></span><br></pre></td></tr></table></figure></p>
+<p>这个结果，大于我们 pic-3 中计算的结果。其实它这个18.5是以下图中红色路线行驶的</p>
+<img src="/2019/01/02/bitonic-traveling-salesman-problem/compare.png" title="pic-4 comparison of two paths of first four points">
+<p>两种方法都是以2，3 点做bitonic_path。图中：</p>
+<ul>
+<li>灰线连接点2，3，是公共的</li>
+<li>蓝线是v-2的方法</li>
+<li>红线是v-bug的方法。</li>
+</ul>
+<p>虽然对于例题，v-bug得到的结果是正确的，但是当4个点时，它显然是错误的。不过也算有点 thought-provoking 吧。</p>
+<p>第一个链接里还有这样一句话：</p>
+<blockquote>
+<p>思考一下, 是不是每一条走完{1..n}的路线都存在一个走完{1..i}(i&lt;n)的子路线? 所以不会漏.</p>
+</blockquote>
+<p>你的良心真的不会痛么。</p>
+<p>这个故事告诉我们：</p>
+<ol>
+<li>还是要自己想想，盲信他人不靠谱</li>
+<li>想不出来，就还是Google吧，百度不靠谱…</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/dynamic-programming/" rel="tag"># dynamic programming</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/21/matplotlib/" rel="next" title="matplotlib">
+                <i class="fa fa-chevron-left"></i> matplotlib
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2019/01/02/bitonic-traveling-salesman-problem/"
+           data-title="Bitonic Traveling Salesman Problem" data-url="http://yoursite.com/2019/01/02/bitonic-traveling-salesman-problem/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="b0o0wen" />
+          <p class="site-author-name" itemprop="name">b0o0wen</p>
+           
+              <p class="site-description motion-element" itemprop="description">A Kidult</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/b0o0wen" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#v-1-dp-it"><span class="nav-number">1.</span> <span class="nav-text">v-1 dp it</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#v-2-plot-it"><span class="nav-number">2.</span> <span class="nav-text">v-2 plot it</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#v-bug"><span class="nav-number">3.</span> <span class="nav-text">v-bug</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">b0o0wen</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Gemini
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"your-duoshuo-shortname"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
