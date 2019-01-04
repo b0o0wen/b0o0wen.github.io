@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="algorithm,dp," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="背包问题主要有 0-1背包（每种物品只有一个），完全背包（每种物品可以无限拿），多重背包（同种物品有有限多个）三种。 完全背包个人感觉完全背包最简单，上代码 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849# 完全背包问题, 可以无限重复拿def knapsack_co">
+<meta name="keywords" content="algorithm,dp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Knapsack Problem">
+<meta property="og:url" content="http://yoursite.com/2019/01/04/knapsack-problem/index.html">
+<meta property="og:site_name" content="0o0 Diary">
+<meta property="og:description" content="背包问题主要有 0-1背包（每种物品只有一个），完全背包（每种物品可以无限拿），多重背包（同种物品有有限多个）三种。 完全背包个人感觉完全背包最简单，上代码 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849# 完全背包问题, 可以无限重复拿def knapsack_co">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-01-04T08:02:01.512Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Knapsack Problem">
+<meta name="twitter:description" content="背包问题主要有 0-1背包（每种物品只有一个），完全背包（每种物品可以无限拿），多重背包（同种物品有有限多个）三种。 完全背包个人感觉完全背包最简单，上代码 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849# 完全背包问题, 可以无限重复拿def knapsack_co">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/04/knapsack-problem/"/>
+
+
+
+
+
+  <title>Knapsack Problem | 0o0 Diary</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">0o0 Diary</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">own it. live it. love it</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/04/knapsack-problem/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="b0o0wen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0o0 Diary">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Knapsack Problem</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-04T09:55:57+08:00">
+                2019-01-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/04/knapsack-problem/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/01/04/knapsack-problem/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>背包问题主要有 0-1背包（每种物品只有一个），完全背包（每种物品可以无限拿），多重背包（同种物品有有限多个）三种。</p>
+<h1 id="完全背包"><a href="#完全背包" class="headerlink" title="完全背包"></a>完全背包</h1><p>个人感觉完全背包最简单，上代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 完全背包问题, 可以无限重复拿</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">knapsack_complete</span><span class="params">(items, total_vol)</span>:</span></span><br><span class="line">    start_vol = min(items.keys())</span><br><span class="line">    best_value = &#123;&#125;</span><br><span class="line">    rest_vol = &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(total_vol+<span class="number">1</span>):</span><br><span class="line">        best_value[i] = <span class="number">0</span></span><br><span class="line">    best_value[start_vol] = items[start_vol]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(start_vol):</span><br><span class="line">        rest_vol[i] = i</span><br><span class="line">    rest_vol[start_vol] = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment"># bottom to top</span></span><br><span class="line">    <span class="comment"># i represents package volume which is divided by k</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(start_vol, total_vol + <span class="number">1</span>, <span class="number">1</span>):</span><br><span class="line">        <span class="comment"># 对于volume i, 从start_vol开始把i一分为二(start_vol,i-start_vol)，直至分为(i-1,1)</span></span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> range(start_vol, i):</span><br><span class="line">            tmp = best_value[k]+best_value[i-k+rest_vol[k]]</span><br><span class="line">            <span class="keyword">if</span> tmp &gt; best_value[i]:</span><br><span class="line">                best_value[i] = tmp</span><br><span class="line">                rest_vol[i] = rest_vol[i-k+rest_vol[k]]</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 拿的value一样时，取剩余空间大的那个</span></span><br><span class="line">            <span class="keyword">elif</span> tmp == best_value[i]:</span><br><span class="line">                <span class="keyword">if</span> rest_vol[i-k+rest_vol[k]] &gt;= rest_vol[i]:</span><br><span class="line">                    rest_vol[i] = rest_vol[i-k+rest_vol[k]]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 再单独比较items[i]</span></span><br><span class="line">        <span class="keyword">if</span> i <span class="keyword">in</span> items.keys():</span><br><span class="line">            <span class="keyword">if</span> items[i] &gt;= best_value[i]:</span><br><span class="line">                best_value[i] = items[i]</span><br><span class="line">                rest_vol[i] = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> best_value, rest_vol</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    items = &#123;</span><br><span class="line">        <span class="number">3</span>: <span class="number">5</span>,</span><br><span class="line">        <span class="number">5</span>: <span class="number">10</span>,</span><br><span class="line">        <span class="number">6</span>: <span class="number">15</span></span><br><span class="line">    &#125;</span><br><span class="line">    total_vol = <span class="number">13</span></span><br><span class="line"></span><br><span class="line">    (best_value, rest_vol) = knapsack_complete(items, total_vol)</span><br><span class="line">    print(best_value)</span><br><span class="line">    print(rest_vol)</span><br></pre></td></tr></table></figure>
+<p>看到这个问题，就觉得它与切钢条问题很像：对于长为l的钢条的切割最优，其子结构k与子结构l-k也必然最优<br>不过完全背包在取得某个最优时，背包可能有剩余空间。<br>则再用一个表rest_vol[k]记录容量k取得最优时的剩余空间，<br>然后对容量i进行二分时，把剩余容量也考虑在内<code>best_value[k]+best_value[i-k+rest_vol[k]]</code><br>自底向上刷 best_val 和 rest_vol，再补上一点细节，感觉挺妥的。</p>
+<p>是不是与硬币找零问题也有点像？硬币找零问题简直就是完全背包的简化情况</p>
+<h1 id="0-1背包"><a href="#0-1背包" class="headerlink" title="0-1背包"></a>0-1背包</h1><p>刚开始思考0-1背包时毫无头绪，只能搜一下思路。看到</p>
+<blockquote>
+<p>定义V(i,j)：当前背包容量 j，前 i 个物品最佳组合对应的价值<br><a href="https://www.cnblogs.com/Christal-R/p/Dynamic_programming.html" target="_blank" rel="noopener">https://www.cnblogs.com/Christal-R/p/Dynamic_programming.html</a></p>
+</blockquote>
+<p>然后顺着它，自己思考完成代码。<br>引用的句话中，最大最关键的启发就是<code>前 i 个物品</code>，也就是对物品进行 <strong>排序</strong>。</p>
+<p>不排序的话，容积为j时的最优解 和 容积为j+1时的最优解，很难找到联系。<br>而且！排序直接解决了”每个物品只能拿一次“的问题。</p>
+<p>排了序，问题就明朗很多了，逻辑直接看代码注释：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 0-1背包问题，不能重复拿</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">knapsack_01</span><span class="params">(items, total_vol)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 物品按重量从小到大的顺序，从0开始编号</span></span><br><span class="line">    item_num = list(items.keys())</span><br><span class="line">    item_num.sort()</span><br><span class="line"></span><br><span class="line">    n = len(item_num)</span><br><span class="line">    <span class="comment"># v记录 容积为j的包 容纳 编号小于等于i的物品的 最优value</span></span><br><span class="line">    v = np.zeros((n,total_vol+<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">    v[<span class="number">0</span>,item_num[<span class="number">0</span>]:] = items[item_num[<span class="number">0</span>]]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(item_num[<span class="number">0</span>], total_vol+<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,n):</span><br><span class="line">            <span class="comment"># j &lt; item_num[i], 完全装不进去，取v[i-1][j]</span></span><br><span class="line">            <span class="keyword">if</span> j &lt; item_num[i]:</span><br><span class="line">                v[i][j] = v[i<span class="number">-1</span>][j]</span><br><span class="line">            <span class="comment"># 装得进去，看装进去是否有利</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                v[i][j] = max(v[i<span class="number">-1</span>][j], v[i<span class="number">-1</span>][j-item_num[i]]+ items[item_num[i]])</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> v[n<span class="number">-1</span>][total_vol],v</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    items = &#123;</span><br><span class="line">        <span class="number">3</span>: <span class="number">5</span>,</span><br><span class="line">        <span class="number">7</span>: <span class="number">16</span>,</span><br><span class="line">        <span class="number">8</span>: <span class="number">14</span>,</span><br><span class="line">        <span class="number">9</span>: <span class="number">17</span>,</span><br><span class="line">        <span class="number">4</span>: <span class="number">7</span>,</span><br><span class="line">        <span class="number">5</span>: <span class="number">10</span>,</span><br><span class="line">        <span class="number">6</span>: <span class="number">15</span></span><br><span class="line">    &#125;</span><br><span class="line">    total_vol = <span class="number">20</span></span><br><span class="line"></span><br><span class="line">    (best_value,v) = knapsack_01(items, total_vol)</span><br><span class="line">    print(best_value)</span><br><span class="line">    <span class="comment"># print(v)</span></span><br></pre></td></tr></table></figure>
+<p>诶，我突然想到0-1背包可以升级一下，比如，我有两个背包，一个容量10，一个容量20 呢？<br>有三个背包呢？<br>有空再说吧，毕竟还有个挑战————输出最优价值时拿了哪些物品，还没完成。</p>
+<h1 id="多重背包"><a href="#多重背包" class="headerlink" title="多重背包"></a>多重背包</h1><p>还想着多重背包会不会复杂很多，但是仔细一想简直和0-1一模一样啊…稍微改一下，排好序就ok了。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">knapsack_complex</span><span class="params">(items,total_vol)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 物品按重量从小到大的顺序，从0开始编号</span></span><br><span class="line">    item_num = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> items.keys():</span><br><span class="line">        tmp = []</span><br><span class="line">        <span class="keyword">for</span> n <span class="keyword">in</span> range(items[i][<span class="string">'num'</span>]):</span><br><span class="line">            tmp.append(i)</span><br><span class="line">        item_num += tmp</span><br><span class="line"></span><br><span class="line">    item_num.sort()</span><br><span class="line"></span><br><span class="line">    n = len(item_num)</span><br><span class="line">    <span class="comment"># v记录 容积为j的包 容纳 编号小于等于i的物品的 最优value</span></span><br><span class="line">    v = np.zeros((n,total_vol+<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">    v[<span class="number">0</span>,item_num[<span class="number">0</span>]:] = items[item_num[<span class="number">0</span>]][<span class="string">'val'</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(item_num[<span class="number">0</span>], total_vol+<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,n):</span><br><span class="line">            <span class="comment"># j &lt; item_num[i], 完全装不进去，取v[i-1][j]</span></span><br><span class="line">            <span class="keyword">if</span> j &lt; item_num[i]:</span><br><span class="line">                v[i][j] = v[i<span class="number">-1</span>][j]</span><br><span class="line">            <span class="comment"># 装得进去，看装进去是否有利</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                v[i][j] = max(v[i<span class="number">-1</span>][j], v[i<span class="number">-1</span>][j-item_num[i]]+ items[item_num[i]][<span class="string">'val'</span>])</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> v[n<span class="number">-1</span>][total_vol],v</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    items = &#123;</span><br><span class="line">        <span class="number">3</span>: &#123;<span class="string">'val'</span>:<span class="number">5</span>, <span class="string">'num'</span>:<span class="number">5</span>&#125;,</span><br><span class="line">        <span class="number">7</span>: &#123;<span class="string">'val'</span>:<span class="number">16</span>, <span class="string">'num'</span>:<span class="number">2</span>&#125;,</span><br><span class="line">        <span class="number">8</span>: &#123;<span class="string">'val'</span>:<span class="number">14</span>, <span class="string">'num'</span>:<span class="number">1</span>&#125;,</span><br><span class="line">        <span class="number">9</span>: &#123;<span class="string">'val'</span>:<span class="number">17</span>, <span class="string">'num'</span>:<span class="number">1</span>&#125;,</span><br><span class="line">        <span class="number">4</span>: &#123;<span class="string">'val'</span>:<span class="number">7</span>, <span class="string">'num'</span>:<span class="number">3</span>&#125;,</span><br><span class="line">        <span class="number">5</span>: &#123;<span class="string">'val'</span>:<span class="number">10</span>, <span class="string">'num'</span>:<span class="number">1</span>&#125;,</span><br><span class="line">        <span class="number">6</span>: &#123;<span class="string">'val'</span>:<span class="number">15</span>, <span class="string">'num'</span>:<span class="number">2</span>&#125;,</span><br><span class="line">    &#125;</span><br><span class="line">    total_vol = <span class="number">40</span></span><br><span class="line">    best_val,v = knapsack_complex(items,total_vol)</span><br><span class="line">    print(best_val)</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/algorithm/" rel="tag"># algorithm</a>
+          
+            <a href="/tags/dp/" rel="tag"># dp</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/02/bitonic-traveling-salesman-problem/" rel="next" title="Bitonic Traveling Salesman Problem">
+                <i class="fa fa-chevron-left"></i> Bitonic Traveling Salesman Problem
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2019/01/04/knapsack-problem/"
+           data-title="Knapsack Problem" data-url="http://yoursite.com/2019/01/04/knapsack-problem/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="b0o0wen" />
+          <p class="site-author-name" itemprop="name">b0o0wen</p>
+           
+              <p class="site-description motion-element" itemprop="description">A Kidult</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/b0o0wen" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#完全背包"><span class="nav-number">1.</span> <span class="nav-text">完全背包</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0-1背包"><span class="nav-number">2.</span> <span class="nav-text">0-1背包</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#多重背包"><span class="nav-number">3.</span> <span class="nav-text">多重背包</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">b0o0wen</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Gemini
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"your-duoshuo-shortname"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

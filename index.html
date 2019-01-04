@@ -283,6 +283,150 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/04/knapsack-problem/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="b0o0wen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0o0 Diary">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/04/knapsack-problem/" itemprop="url">Knapsack Problem</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-04T09:55:57+08:00">
+                2019-01-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/04/knapsack-problem/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/01/04/knapsack-problem/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>背包问题主要有 0-1背包（每种物品只有一个），完全背包（每种物品可以无限拿），多重背包（同种物品有有限多个）三种。</p>
+<h1 id="完全背包"><a href="#完全背包" class="headerlink" title="完全背包"></a>完全背包</h1><p>个人感觉完全背包最简单，上代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 完全背包问题, 可以无限重复拿</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">knapsack_complete</span><span class="params">(items, total_vol)</span>:</span></span><br><span class="line">    start_vol = min(items.keys())</span><br><span class="line">    best_value = &#123;&#125;</span><br><span class="line">    rest_vol = &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(total_vol+<span class="number">1</span>):</span><br><span class="line">        best_value[i] = <span class="number">0</span></span><br><span class="line">    best_value[start_vol] = items[start_vol]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(start_vol):</span><br><span class="line">        rest_vol[i] = i</span><br><span class="line">    rest_vol[start_vol] = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment"># bottom to top</span></span><br><span class="line">    <span class="comment"># i represents package volume which is divided by k</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(start_vol, total_vol + <span class="number">1</span>, <span class="number">1</span>):</span><br><span class="line">        <span class="comment"># 对于volume i, 从start_vol开始把i一分为二(start_vol,i-start_vol)，直至分为(i-1,1)</span></span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> range(start_vol, i):</span><br><span class="line">            tmp = best_value[k]+best_value[i-k+rest_vol[k]]</span><br><span class="line">            <span class="keyword">if</span> tmp &gt; best_value[i]:</span><br><span class="line">                best_value[i] = tmp</span><br><span class="line">                rest_vol[i] = rest_vol[i-k+rest_vol[k]]</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 拿的value一样时，取剩余空间大的那个</span></span><br><span class="line">            <span class="keyword">elif</span> tmp == best_value[i]:</span><br><span class="line">                <span class="keyword">if</span> rest_vol[i-k+rest_vol[k]] &gt;= rest_vol[i]:</span><br><span class="line">                    rest_vol[i] = rest_vol[i-k+rest_vol[k]]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 再单独比较items[i]</span></span><br><span class="line">        <span class="keyword">if</span> i <span class="keyword">in</span> items.keys():</span><br><span class="line">            <span class="keyword">if</span> items[i] &gt;= best_value[i]:</span><br><span class="line">                best_value[i] = items[i]</span><br><span class="line">                rest_vol[i] = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> best_value, rest_vol</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    items = &#123;</span><br><span class="line">        <span class="number">3</span>: <span class="number">5</span>,</span><br><span class="line">        <span class="number">5</span>: <span class="number">10</span>,</span><br><span class="line">        <span class="number">6</span>: <span class="number">15</span></span><br><span class="line">    &#125;</span><br><span class="line">    total_vol = <span class="number">13</span></span><br><span class="line"></span><br><span class="line">    (best_value, rest_vol) = knapsack_complete(items, total_vol)</span><br><span class="line">    print(best_value)</span><br><span class="line">    print(rest_vol)</span><br></pre></td></tr></table></figure>
+<p>看到这个问题，就觉得它与切钢条问题很像：对于长为l的钢条的切割最优，其子结构k与子结构l-k也必然最优<br>不过完全背包在取得某个最优时，背包可能有剩余空间。<br>则再用一个表rest_vol[k]记录容量k取得最优时的剩余空间，<br>然后对容量i进行二分时，把剩余容量也考虑在内<code>best_value[k]+best_value[i-k+rest_vol[k]]</code><br>自底向上刷 best_val 和 rest_vol，再补上一点细节，感觉挺妥的。</p>
+<p>是不是与硬币找零问题也有点像？硬币找零问题简直就是完全背包的简化情况</p>
+<h1 id="0-1背包"><a href="#0-1背包" class="headerlink" title="0-1背包"></a>0-1背包</h1><p>刚开始思考0-1背包时毫无头绪，只能搜一下思路。看到</p>
+<blockquote>
+<p>定义V(i,j)：当前背包容量 j，前 i 个物品最佳组合对应的价值<br><a href="https://www.cnblogs.com/Christal-R/p/Dynamic_programming.html" target="_blank" rel="noopener">https://www.cnblogs.com/Christal-R/p/Dynamic_programming.html</a></p>
+</blockquote>
+<p>然后顺着它，自己思考完成代码。<br>引用的句话中，最大最关键的启发就是<code>前 i 个物品</code>，也就是对物品进行 <strong>排序</strong>。</p>
+<p>不排序的话，容积为j时的最优解 和 容积为j+1时的最优解，很难找到联系。<br>而且！排序直接解决了”每个物品只能拿一次“的问题。</p>
+<p>排了序，问题就明朗很多了，逻辑直接看代码注释：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 0-1背包问题，不能重复拿</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">knapsack_01</span><span class="params">(items, total_vol)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 物品按重量从小到大的顺序，从0开始编号</span></span><br><span class="line">    item_num = list(items.keys())</span><br><span class="line">    item_num.sort()</span><br><span class="line"></span><br><span class="line">    n = len(item_num)</span><br><span class="line">    <span class="comment"># v记录 容积为j的包 容纳 编号小于等于i的物品的 最优value</span></span><br><span class="line">    v = np.zeros((n,total_vol+<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">    v[<span class="number">0</span>,item_num[<span class="number">0</span>]:] = items[item_num[<span class="number">0</span>]]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(item_num[<span class="number">0</span>], total_vol+<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,n):</span><br><span class="line">            <span class="comment"># j &lt; item_num[i], 完全装不进去，取v[i-1][j]</span></span><br><span class="line">            <span class="keyword">if</span> j &lt; item_num[i]:</span><br><span class="line">                v[i][j] = v[i<span class="number">-1</span>][j]</span><br><span class="line">            <span class="comment"># 装得进去，看装进去是否有利</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                v[i][j] = max(v[i<span class="number">-1</span>][j], v[i<span class="number">-1</span>][j-item_num[i]]+ items[item_num[i]])</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> v[n<span class="number">-1</span>][total_vol],v</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    items = &#123;</span><br><span class="line">        <span class="number">3</span>: <span class="number">5</span>,</span><br><span class="line">        <span class="number">7</span>: <span class="number">16</span>,</span><br><span class="line">        <span class="number">8</span>: <span class="number">14</span>,</span><br><span class="line">        <span class="number">9</span>: <span class="number">17</span>,</span><br><span class="line">        <span class="number">4</span>: <span class="number">7</span>,</span><br><span class="line">        <span class="number">5</span>: <span class="number">10</span>,</span><br><span class="line">        <span class="number">6</span>: <span class="number">15</span></span><br><span class="line">    &#125;</span><br><span class="line">    total_vol = <span class="number">20</span></span><br><span class="line"></span><br><span class="line">    (best_value,v) = knapsack_01(items, total_vol)</span><br><span class="line">    print(best_value)</span><br><span class="line">    <span class="comment"># print(v)</span></span><br></pre></td></tr></table></figure>
+<p>诶，我突然想到0-1背包可以升级一下，比如，我有两个背包，一个容量10，一个容量20 呢？<br>有三个背包呢？<br>有空再说吧，毕竟还有个挑战————输出最优价值时拿了哪些物品，还没完成。</p>
+<h1 id="多重背包"><a href="#多重背包" class="headerlink" title="多重背包"></a>多重背包</h1><p>还想着多重背包会不会复杂很多，但是仔细一想简直和0-1一模一样啊…稍微改一下，排好序就ok了。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">knapsack_complex</span><span class="params">(items,total_vol)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 物品按重量从小到大的顺序，从0开始编号</span></span><br><span class="line">    item_num = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> items.keys():</span><br><span class="line">        tmp = []</span><br><span class="line">        <span class="keyword">for</span> n <span class="keyword">in</span> range(items[i][<span class="string">'num'</span>]):</span><br><span class="line">            tmp.append(i)</span><br><span class="line">        item_num += tmp</span><br><span class="line"></span><br><span class="line">    item_num.sort()</span><br><span class="line"></span><br><span class="line">    n = len(item_num)</span><br><span class="line">    <span class="comment"># v记录 容积为j的包 容纳 编号小于等于i的物品的 最优value</span></span><br><span class="line">    v = np.zeros((n,total_vol+<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">    v[<span class="number">0</span>,item_num[<span class="number">0</span>]:] = items[item_num[<span class="number">0</span>]][<span class="string">'val'</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(item_num[<span class="number">0</span>], total_vol+<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,n):</span><br><span class="line">            <span class="comment"># j &lt; item_num[i], 完全装不进去，取v[i-1][j]</span></span><br><span class="line">            <span class="keyword">if</span> j &lt; item_num[i]:</span><br><span class="line">                v[i][j] = v[i<span class="number">-1</span>][j]</span><br><span class="line">            <span class="comment"># 装得进去，看装进去是否有利</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                v[i][j] = max(v[i<span class="number">-1</span>][j], v[i<span class="number">-1</span>][j-item_num[i]]+ items[item_num[i]][<span class="string">'val'</span>])</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> v[n<span class="number">-1</span>][total_vol],v</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    items = &#123;</span><br><span class="line">        <span class="number">3</span>: &#123;<span class="string">'val'</span>:<span class="number">5</span>, <span class="string">'num'</span>:<span class="number">5</span>&#125;,</span><br><span class="line">        <span class="number">7</span>: &#123;<span class="string">'val'</span>:<span class="number">16</span>, <span class="string">'num'</span>:<span class="number">2</span>&#125;,</span><br><span class="line">        <span class="number">8</span>: &#123;<span class="string">'val'</span>:<span class="number">14</span>, <span class="string">'num'</span>:<span class="number">1</span>&#125;,</span><br><span class="line">        <span class="number">9</span>: &#123;<span class="string">'val'</span>:<span class="number">17</span>, <span class="string">'num'</span>:<span class="number">1</span>&#125;,</span><br><span class="line">        <span class="number">4</span>: &#123;<span class="string">'val'</span>:<span class="number">7</span>, <span class="string">'num'</span>:<span class="number">3</span>&#125;,</span><br><span class="line">        <span class="number">5</span>: &#123;<span class="string">'val'</span>:<span class="number">10</span>, <span class="string">'num'</span>:<span class="number">1</span>&#125;,</span><br><span class="line">        <span class="number">6</span>: &#123;<span class="string">'val'</span>:<span class="number">15</span>, <span class="string">'num'</span>:<span class="number">2</span>&#125;,</span><br><span class="line">    &#125;</span><br><span class="line">    total_vol = <span class="number">40</span></span><br><span class="line">    best_val,v = knapsack_complex(items,total_vol)</span><br><span class="line">    print(best_val)</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/02/bitonic-traveling-salesman-problem/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1521,141 +1665,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/12/customize-elastic-search-analyzer/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="b0o0wen">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0o0 Diary">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/12/customize-elastic-search-analyzer/" itemprop="url">Customize elastic search analyzer</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-12T10:59:28+08:00">
-                2018-10-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/10/12/customize-elastic-search-analyzer/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/10/12/customize-elastic-search-analyzer/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <img src="/2018/10/12/customize-elastic-search-analyzer/es.png" title="es数据对应到relational db">
-<p>先放链接，省的找得麻烦 <a href="https://legacy.gitbook.com/book/looly/elasticsearch-the-definitive-guide-cn/details" target="_blank" rel="noopener">https://legacy.gitbook.com/book/looly/elasticsearch-the-definitive-guide-cn/details</a><br><strong>note：这个pdf针对1.4版本的es</strong><br>看es，一个链接就够了。在线看非常慢，建议下载pdf    🐷🐷🐷</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/10/12/customize-elastic-search-analyzer/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1706,7 +1715,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
