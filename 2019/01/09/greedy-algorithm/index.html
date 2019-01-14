@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="algorithm," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="Cast the optimization problem as one in which we make a choice and are left with one subproblem to solve. Provethatthereisalwaysanoptimalsolutiontotheoriginalproblemthatmakes the greedy choice, so t">
+<meta name="keywords" content="algorithm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Greedy Algorithm">
+<meta property="og:url" content="http://yoursite.com/2019/01/09/greedy-algorithm/index.html">
+<meta property="og:site_name" content="0o0 Diary">
+<meta property="og:description" content="Cast the optimization problem as one in which we make a choice and are left with one subproblem to solve. Provethatthereisalwaysanoptimalsolutiontotheoriginalproblemthatmakes the greedy choice, so t">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-01-14T10:33:20.378Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Greedy Algorithm">
+<meta name="twitter:description" content="Cast the optimization problem as one in which we make a choice and are left with one subproblem to solve. Provethatthereisalwaysanoptimalsolutiontotheoriginalproblemthatmakes the greedy choice, so t">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/09/greedy-algorithm/"/>
+
+
+
+
+
+  <title>Greedy Algorithm | 0o0 Diary</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">0o0 Diary</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">own it. live it. love it</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/09/greedy-algorithm/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="b0o0wen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0o0 Diary">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Greedy Algorithm</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-09T13:41:48+08:00">
+                2019-01-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/09/greedy-algorithm/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/01/09/greedy-algorithm/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<ol>
+<li>Cast the optimization problem as one in which we make a choice and are left with one subproblem to solve.</li>
+<li>Provethatthereisalwaysanoptimalsolutiontotheoriginalproblemthatmakes the greedy choice, so that the greedy choice is always safe.</li>
+<li><p>Demonstrate optimal substructure by showing that, having made the greedy choice, what remains is a subproblem with the property that if we combine an optimal solution to the subproblem with the greedy choice we have made, we arrive at an optimal solution to the original problem.</p>
+<p>Beneath every greedy algorithm, <strong>there is almost always a more cumbersome dynamic-programming solution</strong></p>
+</li>
+</ol>
+</blockquote>
+<a id="more"></a>
+<h1 id="Activity-Selection"><a href="#Activity-Selection" class="headerlink" title="Activity Selection"></a>Activity Selection</h1><h2 id="dp-1"><a href="#dp-1" class="headerlink" title="dp 1"></a>dp 1</h2><p>这个题比较简单，我的dp是这样的：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># For instance, s[0]=1, f[0]=4 means activity 0 starts at 1 o'clock and finishes at 4 o'clock. </span></span><br><span class="line"><span class="comment"># Activity i takes place during the half-open time interval [si, fi).</span></span><br><span class="line"><span class="comment"># ordered by the finish time. </span></span><br><span class="line">s = [<span class="number">1</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">8</span>, <span class="number">8</span>, <span class="number">2</span>, <span class="number">12</span>]</span><br><span class="line">f = [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">9</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>, <span class="number">14</span>, <span class="number">16</span>]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">activity_selection</span><span class="params">(s,f)</span>:</span></span><br><span class="line">    n = len(s)</span><br><span class="line">    <span class="comment"># a[i] denotes the best choice within first i activities</span></span><br><span class="line">    a = &#123;&#125;</span><br><span class="line">    a[<span class="number">0</span>] = [<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,n):</span><br><span class="line">        a[i] = a[i<span class="number">-1</span>]</span><br><span class="line">        <span class="comment"># look backward until it's possible to contain activity i</span></span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> range(i<span class="number">-1</span>,<span class="number">-1</span>,<span class="number">-1</span>):</span><br><span class="line">            <span class="keyword">if</span> s[i] &gt;= f[a[k][<span class="number">-1</span>]]:</span><br><span class="line">                <span class="keyword">if</span> len(a[i]) &lt; len(a[k]) + <span class="number">1</span>:</span><br><span class="line">                    a[i] = a[k] + [i]</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">    print(a[n<span class="number">-1</span>])</span><br><span class="line"></span><br><span class="line">activity_selection(s,f)</span><br></pre></td></tr></table></figure></p>
+<p><strong>output:</strong><br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">0</span>, <span class="number">3</span>, <span class="number">7</span>, <span class="number">10</span>]</span><br></pre></td></tr></table></figure></p>
+<p>代表选择 activity <code>0 3 7 10</code> 时达到最佳。妥 ✔️</p>
+<h2 id="dp-2"><a href="#dp-2" class="headerlink" title="dp 2"></a>dp 2</h2><p>为什么我明明感觉这道贪心算法的例题用dp做也挺简单，但还是要写出来了呢？<br>因为算法导论中的dp思路与我不同。就是想说，同样的问题，也有 <strong>多种dp思路</strong> ,要勤加思考<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 有点懒...</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="greedy-algorithm"><a href="#greedy-algorithm" class="headerlink" title="greedy algorithm"></a>greedy algorithm</h2><p>当然啦，这个例题的目的还是为了引出 <strong>贪心算法</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">s = [<span class="number">1</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">8</span>, <span class="number">8</span>, <span class="number">2</span>, <span class="number">12</span>]</span><br><span class="line">f = [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">9</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>, <span class="number">14</span>, <span class="number">16</span>]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">greedy</span><span class="params">(s,f)</span>:</span></span><br><span class="line">    n = len(s)</span><br><span class="line">    a = [<span class="number">0</span>]</span><br><span class="line">    k = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,n):</span><br><span class="line">        <span class="keyword">if</span> s[i] &gt;= f[k]:</span><br><span class="line">            a = a + [i]</span><br><span class="line">            k = i</span><br><span class="line">    print(a)</span><br><span class="line"></span><br><span class="line">greedy(s,f)</span><br></pre></td></tr></table></figure></p>
+<p>再一次体现出 <strong>排序</strong> 的重要性</p>
+<p>怎么感觉贪心算法没什么东西。步步最优，一步一个脚印往前走就是了。</p>
+<h1 id="Huffman-Codes"><a href="#Huffman-Codes" class="headerlink" title="Huffman Codes"></a>Huffman Codes</h1><blockquote>
+<p>Encoding is always simple for any binary character code.<br>we code the 3-character file abc as 0·􏰏101·􏰏100 = 0101100<br>Since no codeword is a prefix of any other, the codeword that begins an encoded file is unambiguous<br>In our example, the string 001011101 parses uniquely as 0·0·101·1101, which decodes to aabe.</p>
+<p>An optimal code for a file is always represented by a full binary tree, in which every nonleaf node has two children</p>
+</blockquote>
+<h1 id="Matroids"><a href="#Matroids" class="headerlink" title="Matroids"></a>Matroids</h1><p>矩阵胚？没看懂，缺乏一定的数学基础知识</p>
+<h2 id="a-task-scheduling-problem"><a href="#a-task-scheduling-problem" class="headerlink" title="a task-scheduling problem"></a>a task-scheduling problem</h2><h1 id="Amortized-Analysis"><a href="#Amortized-Analysis" class="headerlink" title="Amortized Analysis"></a>Amortized Analysis</h1><blockquote>
+<p>Amortized analysis differs from average-case analysis in that probability is not involved; an amortized analysis guarantees the average performance of each operation in the worst case</p>
+</blockquote>
+<h2 id="aggregate-analysis"><a href="#aggregate-analysis" class="headerlink" title="aggregate analysis"></a>aggregate analysis</h2><p>哎，虽然看懂了，但是不知道它想表达什么，有什么用<br>举的例子是 ini-tially empty stack，那当然是O(n) 啊…</p>
+<blockquote>
+<p>therefore the amortized cost per operation, is O(n)/n = (O)1</p>
+</blockquote>
+<p>那确实是这样啊…</p>
+<h2 id="accounting-method"><a href="#accounting-method" class="headerlink" title="accounting method"></a>accounting method</h2><p>没看，头疼</p>
+<h2 id="potential-method"><a href="#potential-method" class="headerlink" title="potential method"></a>potential method</h2><p>没看</p>
+<h1 id="Minmium-Spanning-Tree"><a href="#Minmium-Spanning-Tree" class="headerlink" title="Minmium Spanning Tree"></a>Minmium Spanning Tree</h1><p>a classic application</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/algorithm/" rel="tag"># algorithm</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/04/knapsack-problem/" rel="next" title="Knapsack Problem">
+                <i class="fa fa-chevron-left"></i> Knapsack Problem
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2019/01/09/greedy-algorithm/"
+           data-title="Greedy Algorithm" data-url="http://yoursite.com/2019/01/09/greedy-algorithm/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="b0o0wen" />
+          <p class="site-author-name" itemprop="name">b0o0wen</p>
+           
+              <p class="site-description motion-element" itemprop="description">A Kidult</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/b0o0wen" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Activity-Selection"><span class="nav-number">1.</span> <span class="nav-text">Activity Selection</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#dp-1"><span class="nav-number">1.1.</span> <span class="nav-text">dp 1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dp-2"><span class="nav-number">1.2.</span> <span class="nav-text">dp 2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#greedy-algorithm"><span class="nav-number">1.3.</span> <span class="nav-text">greedy algorithm</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Huffman-Codes"><span class="nav-number">2.</span> <span class="nav-text">Huffman Codes</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Matroids"><span class="nav-number">3.</span> <span class="nav-text">Matroids</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#a-task-scheduling-problem"><span class="nav-number">3.1.</span> <span class="nav-text">a task-scheduling problem</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Amortized-Analysis"><span class="nav-number">4.</span> <span class="nav-text">Amortized Analysis</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#aggregate-analysis"><span class="nav-number">4.1.</span> <span class="nav-text">aggregate analysis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#accounting-method"><span class="nav-number">4.2.</span> <span class="nav-text">accounting method</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#potential-method"><span class="nav-number">4.3.</span> <span class="nav-text">potential method</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Minmium-Spanning-Tree"><span class="nav-number">5.</span> <span class="nav-text">Minmium Spanning Tree</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">b0o0wen</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Gemini
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"your-duoshuo-shortname"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
